@@ -19,6 +19,25 @@
             "times": [
                 "07:04","07:34","07:54"
             ]
+        },
+        {
+            "ref": "1A02",
+            "description": "B to A",
+            "startSpeed": 120,
+            "maxSpeed": 150,
+            "mass": 100,
+            "maxBrake": 20,
+            "power": 25,
+            "increment": 2,
+            "events": [
+                "07:14;Snt;21-1 21-2",
+                "07:16;07:16;B",
+                "07:19;07:19;A",
+                "07:22;Fer;8-7"
+            ],
+            "times": [
+                "00:00"
+            ]
         }
     ]
 }
