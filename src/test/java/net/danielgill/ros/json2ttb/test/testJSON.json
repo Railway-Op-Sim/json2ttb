@@ -1,0 +1,24 @@
+{
+    "startTime": "07:00",
+    "services": [
+        {
+            "ref": "1A01",
+            "description": "A to B",
+            "startSpeed": 120,
+            "maxSpeed": 150,
+            "mass": 100,
+            "maxBrake": 20,
+            "power": 25,
+            "increment": 2,
+            "events": [
+                "00:00;Snt;8-7 9-7",
+                "00:03;00:04;A",
+                "00:07;00:07;B",
+                "00:09;Fer;21-2"
+            ],
+            "times": [
+                "07:04","07:34","07:54"
+            ]
+        }
+    ]
+}
