@@ -50,9 +50,9 @@ Please note, comments are not supported in json, **these are here for illustrati
                 "07:22;Fer;8-7"
             ],
             "times": [                   // If you use actual times, you should enter 00:00 here.
-                "00:00"                  // You could also put other values such as 00:30 here if...
-            ]                            // ...you wanted to repeat using the actual times.
-        }
+                "00:00",{"time":"00:30","description":"C to A"}                  
+            ]                            // As with the above line, you can insert different...
+        }                                // ...information for other instances of the service.
     ]
 }
 ```
