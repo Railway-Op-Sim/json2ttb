@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.danielgill</groupId>
     <artifactId>ros-json2ttb</artifactId>
-    <version>v1.1.0-alpha</version>
+    <version>v1.1.1-alpha</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ros-service</artifactId>
-            <version>v1.1.1-alpha</version>
+            <version>v1.1.2-alpha</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
