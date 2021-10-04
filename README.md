@@ -9,13 +9,13 @@ A Java application which can create an ROS timetable from a structured JSON time
 
 ## JSON Structure Example
 
-Please note, comments are not supported in json, **these are here for illustrative purposes only!** If you'd like this file without comments, you can find it [here](https://github.com/Railway-Op-Sim/ros-json2ttb/blob/master/src/test/java/net/danielgill/ros/json2ttb/test/testJSON.json).
+Please note, comments are not supported in json, **these are here for illustrative purposes only!** If you'd like a similar file without comments, you can find it [here](https://github.com/Railway-Op-Sim/ros-json2ttb/blob/master/src/test/java/net/danielgill/ros/json2ttb/test/testJSON.json).
 
 ```
 {
-    "startTime": "07:00",               // The startTime of the timetable is provided at the top of the file.
-    "services": [                       // This array contains the services, although, as you'll see later...
-        {                               // ...a service can contain several instances.
+    "startTime": "07:00",               // The start time of the timetable is provided at the top of the file.
+    "services": [                       // This array contains the services, although, as you'll...
+        {                               // ...see later a service can contain several instances.
             "ref": "1A01",              // This is the reference for the first instance of a service (if it repeats).
             "description": "A to B",    // The service description.
             "startSpeed": 120,          // The usual values for the service go here.
@@ -25,10 +25,10 @@ Please note, comments are not supported in json, **these are here for illustrati
             "power": 25,
             "increment": 2,             // This is the increment to the last two digits of the ref for each repeat.
             "events": [                 // This array contains the events for the service, each as it's own string.
-                "00:00;Snt;8-7 9-7",    // The zero hour (00:00) will be replaced by each of the times below...
-                "00:03;00:04;A",        // ...and any time after 00:00 will be added on.
-                "00:07;00:07;B",
-                "00:09;Fer;21-2"
+                "23:58;Snt;8-7 9-7",    // The zero hour (00:00) will be replaced by each of the times below...
+                "00:01;00:02;A",        // ...and any time before or after 00:00 will be changed to fit.
+                "00:04;00:04;B",
+                "00:07;Fer;21-2"
             ],
             "times": [                  // These times refer to each instance of the service.
                 "07:04","07:34","07:54" // Unlike the ROS R;x;x;x feature, you can pick any values for these...
