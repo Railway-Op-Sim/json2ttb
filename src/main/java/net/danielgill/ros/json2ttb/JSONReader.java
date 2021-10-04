@@ -4,20 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import net.danielgill.ros.service.Service;
-import net.danielgill.ros.service.event.CdtEvent;
-import net.danielgill.ros.service.event.Event;
-import net.danielgill.ros.service.event.FerEvent;
-import net.danielgill.ros.service.event.FnsEvent;
-import net.danielgill.ros.service.event.PassEvent;
-import net.danielgill.ros.service.event.SnsEvent;
-import net.danielgill.ros.service.event.SntEvent;
-import net.danielgill.ros.service.event.StopEvent;
-import net.danielgill.ros.service.location.Location;
-import net.danielgill.ros.service.location.NamedLocation;
-import net.danielgill.ros.service.location.StartLocation;
+import net.danielgill.ros.service.*;
+import net.danielgill.ros.service.event.*;
+import net.danielgill.ros.service.location.*;
 import net.danielgill.ros.service.template.Template;
-import net.danielgill.ros.service.time.Time;
+import net.danielgill.ros.service.time.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,11 +31,29 @@ public class JSONReader {
             Template template = createTemplate((JSONArray) service.get("events"), service.get("description").toString());
             JSONArray times = (JSONArray) service.get("times");
             for(int j = 0; j < times.size(); j++) {
-                String ref = service.get("ref").toString();
-                ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
-                Service tempService = new Service(ref, service.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
-                tempService.addTemplate(template, new Time(times.get(j).toString()));
-                timetable.addService(tempService);
+                Object time = times.get(j);
+                if(time instanceof JSONObject) {
+                    JSONObject timeJSON = (JSONObject) time;
+                    String ref = service.get("ref").toString();
+                    String description = service.get("description").toString();
+                    if(timeJSON.containsKey("ref")) {
+                        ref = timeJSON.get("ref").toString();
+                    } else {
+                        ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
+                    }
+                    if(timeJSON.containsKey("description")) {
+                        description = timeJSON.get("description").toString();
+                    }
+                    Service tempService = new Service(ref, timeJSON.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
+                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()));
+                    timetable.addService(tempService);
+                } else {
+                    String ref = service.get("ref").toString();
+                    ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
+                    Service tempService = new Service(ref, service.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
+                    tempService.addTemplate(template, new Time(times.get(j).toString()));
+                    timetable.addService(tempService);
+                }
             }
         }
         return timetable.getTextTimetable();
