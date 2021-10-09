@@ -38,6 +38,44 @@
             "times": [
                 "00:00"
             ]
+        },
+        {
+            "ref": "1B01",
+            "description": "A to B",
+            "startSpeed": 120,
+            "maxSpeed": 150,
+            "mass": 100,
+            "maxBrake": 20,
+            "power": 25,
+            "increment": 2,
+            "events": [
+                "23:54;Snt;N8-6 N8-7",
+                "00:00;00:04;A",
+                "00:07;B",
+                "00:09;Fns;1B02"
+            ],
+            "times": [
+                "07:08","07:28","07:48"
+            ]
+        },
+        {
+            "ref": "1B02",
+            "description": "A to B",
+            "startSpeed": 120,
+            "maxSpeed": 150,
+            "mass": 100,
+            "maxBrake": 20,
+            "power": 25,
+            "increment": 2,
+            "events": [
+                "00:09;Sns;1B01",
+                "00:10;B",
+                "00:13;00:13;A",
+                "00:15;Fer;N8-7"
+            ],
+            "times": [
+                "07:08","07:28","07:48"
+            ]
         }
     ]
 }

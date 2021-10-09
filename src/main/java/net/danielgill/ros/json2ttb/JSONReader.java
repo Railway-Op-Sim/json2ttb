@@ -7,6 +7,7 @@ import java.io.IOException;
 import net.danielgill.ros.service.*;
 import net.danielgill.ros.service.event.*;
 import net.danielgill.ros.service.location.*;
+import net.danielgill.ros.service.reference.Reference;
 import net.danielgill.ros.service.template.Template;
 import net.danielgill.ros.service.time.*;
 import org.json.simple.JSONArray;
@@ -36,22 +37,36 @@ public class JSONReader {
                     JSONObject timeJSON = (JSONObject) time;
                     String ref = service.get("ref").toString();
                     String description = service.get("description").toString();
+                    
                     if(timeJSON.containsKey("ref")) {
                         ref = timeJSON.get("ref").toString();
                     } else {
                         ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
                     }
+                    
                     if(timeJSON.containsKey("description")) {
                         description = timeJSON.get("description").toString();
                     }
-                    Service tempService = new Service(ref, timeJSON.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
-                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()));
+                    
+                    Service tempService = new Service(new Reference(ref), description, Integer.parseInt(service.get("startSpeed").toString()), 
+                            Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), 
+                            Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
+                    
+                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), 
+                            Integer.parseInt(service.get("increment").toString()) * j);
+                    
                     timetable.addService(tempService);
                 } else {
                     String ref = service.get("ref").toString();
                     ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
-                    Service tempService = new Service(ref, service.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
-                    tempService.addTemplate(template, new Time(times.get(j).toString()));
+                    
+                    Service tempService = new Service(new Reference(ref), service.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), 
+                            Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), 
+                            Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
+                    
+                    tempService.addTemplate(template, new Time(times.get(j).toString()), 
+                            Integer.parseInt(service.get("increment").toString()) * j);
+                    
                     timetable.addService(tempService);
                 }
             }
@@ -80,11 +95,11 @@ public class JSONReader {
             if(eventSplit[1].equalsIgnoreCase("Fer")) {
                 return new FerEvent(new Time(eventSplit[0]), new Location(eventSplit[2]));
             } else if(eventSplit[1].equalsIgnoreCase("Fns")) {
-                return new FnsEvent(new Time(eventSplit[0]), eventSplit[2]);
+                return new FnsEvent(new Time(eventSplit[0]), new Reference(eventSplit[2]));
             } else if(eventSplit[1].equalsIgnoreCase("pas")) {
                 return new PassEvent(new Time(eventSplit[0]), new NamedLocation(eventSplit[2]));
             } else if(eventSplit[1].equalsIgnoreCase("Sns")) {
-                return new SnsEvent(new Time(eventSplit[0]), eventSplit[2]);
+                return new SnsEvent(new Time(eventSplit[0]), new Reference(eventSplit[2]));
             } else if(eventSplit[1].equalsIgnoreCase("Snt")) {
                 return new SntEvent(new Time(eventSplit[0]), new StartLocation(eventSplit[2]));
             } else {
