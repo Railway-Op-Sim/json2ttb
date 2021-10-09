@@ -37,22 +37,36 @@ public class JSONReader {
                     JSONObject timeJSON = (JSONObject) time;
                     String ref = service.get("ref").toString();
                     String description = service.get("description").toString();
+                    
                     if(timeJSON.containsKey("ref")) {
                         ref = timeJSON.get("ref").toString();
                     } else {
                         ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
                     }
+                    
                     if(timeJSON.containsKey("description")) {
                         description = timeJSON.get("description").toString();
                     }
-                    Service tempService = new Service(new Reference(ref), timeJSON.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
-                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()));
+                    
+                    Service tempService = new Service(new Reference(ref), description, Integer.parseInt(service.get("startSpeed").toString()), 
+                            Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), 
+                            Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
+                    
+                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), 
+                            Integer.parseInt(service.get("increment").toString()) * j);
+                    
                     timetable.addService(tempService);
                 } else {
                     String ref = service.get("ref").toString();
                     ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
-                    Service tempService = new Service(new Reference(ref), service.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
-                    tempService.addTemplate(template, new Time(times.get(j).toString()));
+                    
+                    Service tempService = new Service(new Reference(ref), service.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), 
+                            Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), 
+                            Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
+                    
+                    tempService.addTemplate(template, new Time(times.get(j).toString()), 
+                            Integer.parseInt(service.get("increment").toString()) * j);
+                    
                     timetable.addService(tempService);
                 }
             }
