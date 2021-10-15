@@ -5,8 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import net.danielgill.ros.service.*;
-import net.danielgill.ros.service.event.*;
-import net.danielgill.ros.service.location.*;
+import net.danielgill.ros.service.parse.ParseEvent;
 import net.danielgill.ros.service.reference.Reference;
 import net.danielgill.ros.service.template.Template;
 import net.danielgill.ros.service.time.*;
@@ -76,37 +75,10 @@ public class JSONReader {
     
     private Template createTemplate(JSONArray events, String description) {
         Template template = new Template(description);
+        ParseEvent parse = new ParseEvent();
         for(int i = 0; i < events.size(); i++) {
-            template.addEvent(getEventFromString(events.get(i).toString()));
+            template.addEvent(parse.getEventFromString(events.get(i).toString()));
         }
         return template;
-    }
-    
-    private Event getEventFromString(String eventString) {
-        //TODO: Add more events in here when they are added to the main library.
-        String[] eventSplit = eventString.split(";");
-        if(eventSplit.length == 2) {
-            if(eventSplit[1].equalsIgnoreCase("cdt")) {
-                return new CdtEvent(new Time(eventSplit[0]));
-            } else {
-                return new StopEvent(new Time(eventSplit[0]), new NamedLocation(eventSplit[1]));
-            }
-        } else if(eventSplit.length == 3) {
-            if(eventSplit[1].equalsIgnoreCase("Fer")) {
-                return new FerEvent(new Time(eventSplit[0]), new Location(eventSplit[2]));
-            } else if(eventSplit[1].equalsIgnoreCase("Fns")) {
-                return new FnsEvent(new Time(eventSplit[0]), new Reference(eventSplit[2]));
-            } else if(eventSplit[1].equalsIgnoreCase("pas")) {
-                return new PassEvent(new Time(eventSplit[0]), new NamedLocation(eventSplit[2]));
-            } else if(eventSplit[1].equalsIgnoreCase("Sns")) {
-                return new SnsEvent(new Time(eventSplit[0]), new Reference(eventSplit[2]));
-            } else if(eventSplit[1].equalsIgnoreCase("Snt")) {
-                return new SntEvent(new Time(eventSplit[0]), new StartLocation(eventSplit[2]));
-            } else {
-                return new StopEvent(new Time(eventSplit[0]), new Time(eventSplit[1]), new NamedLocation(eventSplit[2]));
-            }
-        }
-        
-        return null;
     }
 }

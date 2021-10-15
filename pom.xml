@@ -9,7 +9,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ros-service</artifactId>
-            <version>v1.1.3-alpha</version>
+            <version>v1.1.4-alpha</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
