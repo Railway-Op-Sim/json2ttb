@@ -23,6 +23,7 @@ public class Timetable {
         for(Service service : services) {
             output += "\u0000" + service.toString();
         }
+        output += "\u0000";
         return output;
     }
 }
