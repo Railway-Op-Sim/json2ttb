@@ -1,13 +1,13 @@
 package net.danielgill.ros.json2ttb;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) throws IOException, FileNotFoundException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException {
         if(args.length < 1) {
             System.err.println("You have not provided a file, please try again.");
             System.exit(0);
