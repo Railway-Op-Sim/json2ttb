@@ -28,44 +28,37 @@ public class JSONTimetable {
     public String createTimetable() {
         JSONArray services = (JSONArray) json.get("services");
         for(int i = 0; i < services.size(); i++) {
-            JSONObject service = (JSONObject) services.get(i);
-            Template template = createTemplate((JSONArray) service.get("events"), service.get("description").toString());
-            JSONArray times = (JSONArray) service.get("times");
+            JSONService s = new JSONService((JSONObject) services.get(i));
+            Template template = createTemplate((JSONArray) s.events, s.description);
+            JSONArray times = (JSONArray) s.times;
             for(int j = 0; j < times.size(); j++) {
                 Object time = times.get(j);
-                if(time instanceof JSONObject) {
-                    JSONObject timeJSON = (JSONObject) time;
-                    String ref = service.get("ref").toString();
-                    String description = service.get("description").toString();
+                if(time instanceof JSONObject timeJSON) {
+                    String ref = s.ref;
+                    String description = s.description;
                     
                     if(timeJSON.containsKey("ref")) {
                         ref = timeJSON.get("ref").toString();
                     } else {
-                        ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
+                        ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (s.increment * j)));
                     }
                     
                     if(timeJSON.containsKey("description")) {
                         description = timeJSON.get("description").toString();
                     }
                     
-                    Service tempService = new Service(new Reference(ref), description, Integer.parseInt(service.get("startSpeed").toString()), 
-                            Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), 
-                            Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
+                    Service tempService = new Service(new Reference(ref), description, s.startSpeed, s.maxSpeed, s.mass, s.maxBrake, s.power);
                     
-                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), 
-                            Integer.parseInt(service.get("increment").toString()) * j);
+                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), s.increment * j);
                     
                     timetable.addService(tempService);
                 } else {
-                    String ref = service.get("ref").toString();
-                    ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (Integer.parseInt(service.get("increment").toString()) * j)));
+                    String ref = s.ref;
+                    ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (s.increment * j)));
+
+                    Service tempService = new Service(new Reference(ref), s.description, s.startSpeed, s.maxSpeed, s.mass, s.maxBrake, s.power);
                     
-                    Service tempService = new Service(new Reference(ref), service.get("description").toString(), Integer.parseInt(service.get("startSpeed").toString()), 
-                            Integer.parseInt(service.get("maxSpeed").toString()), Integer.parseInt(service.get("mass").toString()), 
-                            Integer.parseInt(service.get("maxBrake").toString()), Integer.parseInt(service.get("power").toString()));
-                    
-                    tempService.addTemplate(template, new Time(times.get(j).toString()), 
-                            Integer.parseInt(service.get("increment").toString()) * j);
+                    tempService.addTemplate(template, new Time(times.get(j).toString()), s.increment * j);
                     
                     timetable.addService(tempService);
                 }
