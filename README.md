@@ -11,7 +11,7 @@ A Java application which can create an ROS timetable from a structured JSON time
 
 Please note, comments are not supported in json, **these are here for illustrative purposes only!** If you'd like a similar file without comments, you can find it [here](https://github.com/Railway-Op-Sim/ros-json2ttb/blob/master/src/test/java/net/danielgill/ros/json2ttb/test/testJSON.json).
 
-```json lines
+```
 {
     "startTime": "07:00",               // The start time of the timetable is provided at the top of the file.
     "services": [                       // This array contains the services, although, as you'll...
