@@ -20,7 +20,7 @@ public class JSONTimetable {
     private Timetable timetable;
     
     public JSONTimetable(File file) throws IOException, ParseException {
-        org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
+        JSONParser jsonParser = new JSONParser();
         json = (JSONObject) jsonParser.parse(new FileReader(file));
         timetable = new Timetable(new Time(json.get("startTime").toString()));
     }
