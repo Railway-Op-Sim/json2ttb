@@ -1,5 +1,6 @@
 package net.danielgill.ros.json2ttb;
 
+import net.danielgill.ros.json2ttb.json.JSONTimetable;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
@@ -14,7 +15,7 @@ public class Main {
         }
         
         File file = new File(args[0]);
-        JSONReader json = new JSONReader(file);
+        JSONTimetable json = new JSONTimetable(file);
         String ttb = json.createTimetable();
         
         System.out.println(file.getAbsolutePath());

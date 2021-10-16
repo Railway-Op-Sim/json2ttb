@@ -1,9 +1,10 @@
-package net.danielgill.ros.json2ttb;
+package net.danielgill.ros.json2ttb.json;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import net.danielgill.ros.json2ttb.Timetable;
 import net.danielgill.ros.service.*;
 import net.danielgill.ros.service.parse.ParseEvent;
 import net.danielgill.ros.service.reference.Reference;
@@ -14,12 +15,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class JSONReader {
+public class JSONTimetable {
     private JSONObject json;
     private Timetable timetable;
     
-    public JSONReader(File file) throws FileNotFoundException, IOException, IOException, ParseException {
-        JSONParser jsonParser = new JSONParser();
+    public JSONTimetable(File file) throws IOException, ParseException {
+        org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
         json = (JSONObject) jsonParser.parse(new FileReader(file));
         timetable = new Timetable(new Time(json.get("startTime").toString()));
     }
