@@ -1,14 +1,20 @@
 {
     "startTime": "07:00",
+    "dataTemplates": [
+        {
+            "keyword":"TestTemplate",
+            "maxSpeed": 150,
+            "mass": 100,
+            "maxBrake": 20,
+            "power": 25
+        }
+    ],
     "services": [
         {
             "ref": "1A01",
             "description": "A to B",
             "startSpeed": 120,
-            "maxSpeed": 150,
-            "mass": 100,
-            "maxBrake": 20,
-            "power": 25,
+            "dataTemplate":"TestTemplate",
             "increment": 2,
             "events": [
                 "23:54;Snt;N8-6 N8-7",
@@ -24,10 +30,7 @@
             "ref": "1A02",
             "description": "B to A",
             "startSpeed": 120,
-            "maxSpeed": 150,
-            "mass": 100,
-            "maxBrake": 20,
-            "power": 25,
+            "dataTemplate":"C323_3",
             "increment": 2,
             "events": [
                 "07:14;Snt;21-1 21-2",
