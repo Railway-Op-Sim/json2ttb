@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import net.danielgill.ros.json2ttb.Timetable;
 import net.danielgill.ros.service.*;
+import net.danielgill.ros.service.data.Data;
+import net.danielgill.ros.service.data.DataTemplates;
 import net.danielgill.ros.service.parse.ParseEvent;
 import net.danielgill.ros.service.reference.Reference;
 import net.danielgill.ros.service.template.Template;
@@ -27,9 +29,33 @@ public class JSONTimetable {
     
     public String createTimetable() {
         JSONArray services = (JSONArray) json.get("services");
+        
+        DataTemplates dts = new DataTemplates();
+        if(json.containsKey("dataTemplates")) {
+            JSONArray custom = (JSONArray) json.get("dataTemplates");
+            for(int i = 0; i < custom.size(); i++) {
+                JSONObject customTemp = (JSONObject) custom.get(i);
+                String keyword = customTemp.get("keyword").toString();
+                int maxSpeed = Integer.parseInt(customTemp.get("maxSpeed").toString());
+                int mass = Integer.parseInt(customTemp.get("mass").toString());
+                int maxBrake = Integer.parseInt(customTemp.get("maxBrake").toString());
+                int power = Integer.parseInt(customTemp.get("power").toString());
+                dts.addTemplate(keyword, maxSpeed, mass, maxBrake, power);
+            }
+        }
+        
         for(int i = 0; i < services.size(); i++) {
             JSONService s = new JSONService((JSONObject) services.get(i));
             Template template = createTemplate((JSONArray) s.events, s.description);
+            
+            Data data;
+            
+            if(s.usesDataTemplate) {
+                data = new Data(s.startSpeed, dts.getTemplate(s.dataTemplate).getData());
+            } else {
+                data = new Data(s.startSpeed, s.maxSpeed, s.mass, s.maxBrake, s.power);
+            }
+            
             JSONArray times = (JSONArray) s.times;
             for(int j = 0; j < times.size(); j++) {
                 Object time = times.get(j);
@@ -48,7 +74,7 @@ public class JSONTimetable {
                         description = timeJSON.get("description").toString();
                     }
                     
-                    Service tempService = new Service(new Reference(ref), description, s.startSpeed, s.maxSpeed, s.mass, s.maxBrake, s.power);
+                    Service tempService = new Service(new Reference(ref), description, data);
 
                     tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), s.increment * j);
                     
@@ -57,7 +83,7 @@ public class JSONTimetable {
                     String ref = s.ref;
                     ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (s.increment * j)));
 
-                    Service tempService = new Service(new Reference(ref), s.description, s.startSpeed, s.maxSpeed, s.mass, s.maxBrake, s.power);
+                    Service tempService = new Service(new Reference(ref), s.description, data);
                     
                     tempService.addTemplate(template, new Time(times.get(j).toString()), s.increment * j);
                     
