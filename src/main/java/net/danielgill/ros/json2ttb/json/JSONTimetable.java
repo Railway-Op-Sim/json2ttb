@@ -33,7 +33,8 @@ public class JSONTimetable {
             JSONArray times = (JSONArray) s.times;
             for(int j = 0; j < times.size(); j++) {
                 Object time = times.get(j);
-                if(time instanceof JSONObject timeJSON) {
+                if(time instanceof JSONObject) {
+                    JSONObject timeJSON = (JSONObject) time;
                     String ref = s.ref;
                     String description = s.description;
                     
@@ -48,7 +49,7 @@ public class JSONTimetable {
                     }
                     
                     Service tempService = new Service(new Reference(ref), description, s.startSpeed, s.maxSpeed, s.mass, s.maxBrake, s.power);
-                    
+
                     tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), s.increment * j);
                     
                     timetable.addService(tempService);

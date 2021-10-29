@@ -2,6 +2,7 @@ package net.danielgill.ros.json2ttb;
 
 import java.util.ArrayList;
 import net.danielgill.ros.service.Service;
+import net.danielgill.ros.service.ServiceInvalidException;
 import net.danielgill.ros.service.time.Time;
 
 public class Timetable {
@@ -21,7 +22,11 @@ public class Timetable {
         String output = "";
         output += startTime.toString();
         for(Service service : services) {
-            output += "\u0000" + service.toString();
+            try {
+                output += "\u0000" + service.toTimetableString();
+            } catch (ServiceInvalidException e) {
+                System.err.println("[" + e.getRef() + "]: " + e.getMessage());
+            }
         }
         output += "\u0000";
         return output;
