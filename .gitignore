@@ -2,3 +2,5 @@
 nbactions.xml
 /target/
 /.idea/
+*.lst
+target/maven-archiver/pom.properties
