@@ -1,5 +1,5 @@
-# json2ttb Documentation
-#### For version 1.3.0-alpha
+# json2ttb User Manual
+#### For version 1.0.0
 
 ## Contents
 1. [Introduction](#intro)
