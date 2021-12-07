@@ -26,8 +26,12 @@ public class JSONService {
 		description = service.get("description").toString();
 
 		times = (JSONArray) service.get("times");
-
-		startSpeed = Integer.parseInt(service.get("startSpeed").toString());
+                
+                if(service.containsKey("startSpeed")) {
+                    startSpeed = Integer.parseInt(service.get("startSpeed").toString());
+                } else {
+                    startSpeed = 0;
+                }
                 
                 if(service.containsKey("dataTemplate")) {
                     usesDataTemplate = true;
@@ -36,13 +40,20 @@ public class JSONService {
                     mass = 0;
                     maxBrake = 0;
                     power = 0;
-                } else {
+                } else if(service.containsKey("maxSpeed") && service.containsKey("mass") && service.containsKey("maxBrake") && service.containsKey("power")) {
                     usesDataTemplate = false;
                     dataTemplate = "";
                     maxSpeed = Integer.parseInt(service.get("maxSpeed").toString());
                     mass = Integer.parseInt(service.get("mass").toString());
                     maxBrake = Integer.parseInt(service.get("maxBrake").toString());
                     power = Integer.parseInt(service.get("power").toString());
+                } else {
+                    usesDataTemplate = false;
+                    dataTemplate = "";
+                    maxSpeed = -1;
+                    mass = -1;
+                    maxBrake = -1;
+                    power = -1;
                 }
                 
 		increment = Integer.parseInt(service.get("increment").toString());

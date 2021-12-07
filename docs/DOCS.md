@@ -1,5 +1,5 @@
 # json2ttb User Manual
-#### For version 1.0.0
+#### For version 1.1.0
 
 ## Contents
 1. [Introduction](#intro)
@@ -23,7 +23,7 @@ json2ttb is a complementary program for Railway Operation Simulator to help in t
 
 | What json2ttb can do.                                               |                         What json2ttb cannot do. (yet) |
 |---------------------------------------------------------------------|-------------------------------------------------------:|
-| Creates timetables for ROS from user data.                          |       No current support for joins/splits or shuttles. |
+| Creates timetables for ROS from user data.                          |                       No current support for shuttles. |
 | Allows for "odd" repeats of services.                               |         Does not simplify writing individual services. |
 | Create templates of service data and use them for several services. | No current support for the ROS repeats (e.g. R;30;2;2) |
 | Change the reference and description of single repeats.             |                                                        |
@@ -68,7 +68,7 @@ Below are a few example files which match the json format, feel free to use thes
 - [json2ttb Testing Example](https://github.com/Railway-Op-Sim/ros-json2ttb/blob/master/src/test/java/net/danielgill/ros/json2ttb/test/testJSON.json)
 - [South London and Thameslink](https://github.com/Railway-Op-Sim/GB-SouthLondonAndThameslink/blob/master/Program_Timetables/SouthLondonAndThameslink.json)
 - [Llandudno Junction](https://github.com/Railway-Op-Sim/GB-LlandudnoJct/blob/master/Program_Timetables/LlandudnoJct_October2021.json)
-- [Leeds and Bradford (WIP)](https://github.com/Railway-Op-Sim/GB-LeedsAndBradford/blob/master/Program_Timetables/leedsbradford.json)
+- [Leeds and Bradford](https://github.com/Railway-Op-Sim/GB-LeedsAndBradford/blob/master/Program_Timetables/leedsbradford.json)
 
 ### Starting the File <a name="start"></a>
 
@@ -115,6 +115,8 @@ To create a new service, we start with an object inside the `services` array. Th
 ```
 
 We can replace `maxSpeed`, `mass`, `maxBrake` and `power` with a `dataTemplate`. Find more information [here](#datatemp).
+
+The `maxSpeed`, `mass`, `maxBrake` and `power` or `dataTemplate` does not need to be included for services that form from another service. (i.e their first event is a Sns.) If this data is excluded from a service that requires it, it will throw an error message when you run json2ttb, and the resulting file will not contain the offending service, or the `.ttb` may not work at all.
 
 Within the service object, we also need to include `events` and `times` arrays:
 
