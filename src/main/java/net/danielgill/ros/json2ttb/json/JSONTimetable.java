@@ -106,6 +106,7 @@ public class JSONTimetable {
                 for(String regex : set) {
                     if(Pattern.matches(regex, reference)) {
                         template.addEvent(parse.getEventFromString(((JSONObject) evt).get(regex).toString()));
+                        continue;
                     }
                 }
             } else {
