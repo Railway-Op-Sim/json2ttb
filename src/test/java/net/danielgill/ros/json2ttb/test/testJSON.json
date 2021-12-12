@@ -64,11 +64,6 @@
         {
             "ref": "1B02",
             "description": "A to B",
-            "startSpeed": 120,
-            "maxSpeed": 150,
-            "mass": 100,
-            "maxBrake": 20,
-            "power": 25,
             "increment": 2,
             "events": [
                 "00:09;Sns;1B01",
