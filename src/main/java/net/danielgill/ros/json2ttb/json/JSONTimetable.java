@@ -74,6 +74,8 @@ public class JSONTimetable {
                         description = timeJSON.get("description").toString();
                     }
                     
+                    description = updateDescription(description, new Time(timeJSON.get("time").toString()));
+                    
                     Service tempService;
                     
                     if(timeJSON.containsKey("dataTemplate")) {
@@ -90,10 +92,13 @@ public class JSONTimetable {
                 } else {
                     String ref = s.ref;
                     ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (s.increment * j)));
-
-                    Service tempService = new Service(new Reference(ref), s.description, data);
                     
-                    Template template = createTemplate(s.events, ref, s.description);
+                    String description = s.description;
+                    description = updateDescription(description, new Time(times.get(j).toString()));
+
+                    Service tempService = new Service(new Reference(ref), description, data);
+                    
+                    Template template = createTemplate(s.events, ref, description);
                     tempService.addTemplate(template, new Time(times.get(j).toString()), s.increment * j);
                     
                     timetable.addService(tempService);
@@ -121,5 +126,16 @@ public class JSONTimetable {
             }
         }
         return template;
+    }
+    
+    private String updateDescription(String old, Time tm) {
+        while(old.contains("%t")) {
+            int index = old.indexOf("%t");
+            String timeUpd = old.substring(index, index + 8);
+            Time descTime = new Time(old.substring(index + 3, index + 7));
+            descTime = descTime.getNewAddMinutes(tm.getMinutes());
+            old = old.replace(timeUpd, descTime.toString());
+        }
+        return old;
     }
 }

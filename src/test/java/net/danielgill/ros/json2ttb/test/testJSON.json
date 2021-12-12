@@ -63,7 +63,7 @@
         },
         {
             "ref": "1B02",
-            "description": "A to B",
+            "description": "%t00:13% A to B",
             "increment": 2,
             "events": [
                 "00:09;Sns;1B01",
@@ -72,7 +72,7 @@
                 "00:15;Fer;N8-7"
             ],
             "times": [
-                "07:08","07:28","07:48"
+                "07:08","07:28",{"time":"07:48","description":"%t12:23% Does this work?"}
             ]
         }
     ]
