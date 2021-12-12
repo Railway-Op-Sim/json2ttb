@@ -74,7 +74,14 @@ public class JSONTimetable {
                         description = timeJSON.get("description").toString();
                     }
                     
-                    Service tempService = new Service(new Reference(ref), description, data);
+                    Service tempService;
+                    
+                    if(timeJSON.containsKey("dataTemplate")) {
+                        Data instancedata = new Data(s.startSpeed, dts.getTemplate(timeJSON.get("dataTemplate").toString()).getData());
+                        tempService = new Service(new Reference(ref), description, instancedata);
+                    } else {
+                        tempService = new Service(new Reference(ref), description, data);
+                    }
 
                     Template template = createTemplate(s.events, ref, description);
                     tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), s.increment * j);
