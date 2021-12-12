@@ -1,5 +1,5 @@
 # json2ttb User Manual
-#### For version 1.1.0
+#### For version 1.2.0
 
 ## Contents
 1. [Introduction](#intro)
@@ -9,7 +9,9 @@
 3. [Guide to the JSON Structure](#json)
  1. [Starting the File](#start)
  2. [Service Information](#service)
+    1. [Description Time Updates](#desc)
  3. [Adding Events and Times](#events)
+    1. [Advanced Event Changes](#event-changes)
  4. [Change Information per Instance](#times)
  5. [Data Templates](#datatemp)
 4. [Get Help](#help)
@@ -144,6 +146,20 @@ Within the service object, we also need to include `events` and `times` arrays:
 }
 ```
 
+#### Description Time Updates <a name="desc"></a>
+
+A special syntax within the description can be used to change the description to reflect the time for each service. The description can be changed both in the service description key and, as you will see below, per-instance descriptions.
+
+An example of a description using the syntax is below:
+
+`%t23:30% London Euston to Manchester Piccadilly`
+
+The `t` refers to time, and the area replaced will be between the `%`. This does mean that the `%` **cannot be used elsewhere** in any service description.
+
+If the `times` for this service were `12:03`, `12:43`, `13:23` for example, then the descriptions would be:
+
+`11:33 London Euston to Manchester Piccadilly`, `12:13 London Euston to Manchester Piccadilly` and `12:53 London Euston to Manchester Piccadilly`
+
 ### Adding Events and Times <a name="events"></a>
 
 Once we have a service, we can add any number of events within the `events` array. The services that we create use the exact same syntax as those in ROS timetables. They must be as strings separated by commas.
@@ -225,6 +241,38 @@ This example has the same time differences as the previous examples, however, we
 
 You could, for example, extract departure times from a single principle station from an external timetable, and import these into your json file. This is especially helpful if the services do not have a regular departure time pattern.
 
+#### Advanced Event Changes <a name="event-changes"></a>
+
+A new feature for version 1.2.0 allows you to change (add/remove/edit) events for a single instance, or a collection of instances for a single service. This could be useful, for example, if one instance of a service stops at an additional station and you wanted to include it without having to write a whole new service.
+
+To achieve this, we replace a event in the list with an object (curly brackets), which can have one or more keys containing the ***service ref*** or any ***regex*** to represent any number of services. For example:
+
+```json
+    ...
+    "events": [
+      "23:58;Snt;6-2 5-2",
+      "00:00;00:00;A",
+      "00:03;00:03;B",
+      {"1A01":"00:05;00:05;C"},
+      "00:07;Fer;15-2"
+    ],
+    ...
+```
+
+Or another example, where only instances 1A01 and 1A03 stop at C, and only 1A02 stops at B using regex:
+
+```json
+    ...
+    "events": [
+      "23:58;Snt;6-2 5-2",
+      "00:00;00:00;A",
+      {"1A02":"00:03;00:03;B"},
+      {"1A01|1A03":"00:05;00:05;C"},
+      "00:07;Fer;15-2"
+    ],
+    ...
+```
+
 ### Change Information per Instance <a name="times"></a>
 
 For example, we may have a one-off service that extends beyond the usual destination station. For this, we can change the `description` for an individual instance in the `times` array.
@@ -284,6 +332,16 @@ We can generalise `maxSpeed`, `mass`, `maxBrake` and `power` for each service us
     }
   ]
 }
+```
+
+Data templates can also be used per-instance, so that:
+
+```json
+      ...
+      "times": [
+        "12:00",{"time":"12:30","dataTemplate":"TestData"},"13:00"
+      ]
+      ...
 ```
 
 We can create a **custom template** by adding a new array between `startTime` and `services`, which contains an object with keys for `keyword`, `maxSpeed`, `mass`, `maxBrake` and `power`.
