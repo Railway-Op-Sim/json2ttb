@@ -3,6 +3,8 @@ package net.danielgill.ros.json2ttb.json;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import net.danielgill.ros.json2ttb.Timetable;
 import net.danielgill.ros.service.*;
@@ -46,10 +48,8 @@ public class JSONTimetable {
         
         for(int i = 0; i < services.size(); i++) {
             JSONService s = new JSONService((JSONObject) services.get(i));
-            Template template = createTemplate((JSONArray) s.events, s.description);
             
             Data data;
-            
             if(s.usesDataTemplate) {
                 data = new Data(s.startSpeed, dts.getTemplate(s.dataTemplate).getData());
             } else {
@@ -76,6 +76,7 @@ public class JSONTimetable {
                     
                     Service tempService = new Service(new Reference(ref), description, data);
 
+                    Template template = createTemplate(s.events, ref, description);
                     tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), s.increment * j);
                     
                     timetable.addService(tempService);
@@ -85,6 +86,7 @@ public class JSONTimetable {
 
                     Service tempService = new Service(new Reference(ref), s.description, data);
                     
+                    Template template = createTemplate(s.events, ref, s.description);
                     tempService.addTemplate(template, new Time(times.get(j).toString()), s.increment * j);
                     
                     timetable.addService(tempService);
@@ -94,11 +96,22 @@ public class JSONTimetable {
         return timetable.getTextTimetable();
     }
     
-    private Template createTemplate(JSONArray events, String description) {
+    private Template createTemplate(JSONArray events, String reference, String description) {
         Template template = new Template(description);
         ParseEvent parse = new ParseEvent();
         for(int i = 0; i < events.size(); i++) {
-            template.addEvent(parse.getEventFromString(events.get(i).toString()));
+            Object evt = events.get(i);
+            if(evt instanceof JSONObject) {
+                Set<String> set = ((JSONObject) evt).keySet();
+                for(String regex : set) {
+                    if(Pattern.matches(regex, reference)) {
+                        template.addEvent(parse.getEventFromString(((JSONObject) evt).get(regex).toString()));
+                        continue;
+                    }
+                }
+            } else {
+                template.addEvent(parse.getEventFromString(events.get(i).toString()));
+            }
         }
         return template;
     }
