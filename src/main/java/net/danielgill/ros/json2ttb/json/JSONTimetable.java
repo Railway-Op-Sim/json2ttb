@@ -3,6 +3,8 @@ package net.danielgill.ros.json2ttb.json;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -114,7 +116,7 @@ public class JSONTimetable {
         for(int i = 0; i < events.size(); i++) {
             Object evt = events.get(i);
             if(evt instanceof JSONObject) {
-                Set<String> set = ((JSONObject) evt).keySet();
+                Set<String> set = castStringSet(((JSONObject) evt).keySet());
                 for(String regex : set) {
                     if(Pattern.matches(regex, reference)) {
                         template.addEvent(parse.getEventFromString(((JSONObject) evt).get(regex).toString()));
@@ -126,6 +128,14 @@ public class JSONTimetable {
             }
         }
         return template;
+    }
+
+    private static Set<String> castStringSet(Collection<?> c) {
+        Set<String> r = new HashSet<String>();
+        for(Object o : c) {
+            r.add(o.toString());
+        }
+        return r;
     }
     
     private String updateDescription(String old, Time tm) {
