@@ -13,9 +13,9 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>ros-service</artifactId>
-            <version>v1.2.2-alpha</version>
+            <groupId>net.danielgill.ros</groupId>
+            <artifactId>timetable-lib</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
     <properties>
