@@ -3,17 +3,19 @@ package net.danielgill.ros.json2ttb.json;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import net.danielgill.ros.json2ttb.Timetable;
-import net.danielgill.ros.service.*;
-import net.danielgill.ros.service.data.Data;
-import net.danielgill.ros.service.data.DataTemplates;
-import net.danielgill.ros.service.parse.ParseEvent;
-import net.danielgill.ros.service.reference.Reference;
-import net.danielgill.ros.service.template.Template;
-import net.danielgill.ros.service.time.*;
+import net.danielgill.ros.timetable.*;
+import net.danielgill.ros.timetable.data.Data;
+import net.danielgill.ros.timetable.data.DataTemplates;
+import net.danielgill.ros.timetable.parse.ParseEvent;
+import net.danielgill.ros.timetable.reference.Reference;
+import net.danielgill.ros.timetable.service.Service;
+import net.danielgill.ros.timetable.template.Template;
+import net.danielgill.ros.timetable.time.Time;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -114,7 +116,7 @@ public class JSONTimetable {
         for(int i = 0; i < events.size(); i++) {
             Object evt = events.get(i);
             if(evt instanceof JSONObject) {
-                Set<String> set = ((JSONObject) evt).keySet();
+                Set<String> set = castStringSet(((JSONObject) evt).keySet());
                 for(String regex : set) {
                     if(Pattern.matches(regex, reference)) {
                         template.addEvent(parse.getEventFromString(((JSONObject) evt).get(regex).toString()));
@@ -126,6 +128,14 @@ public class JSONTimetable {
             }
         }
         return template;
+    }
+
+    private static Set<String> castStringSet(Collection<?> c) {
+        Set<String> r = new HashSet<String>();
+        for(Object o : c) {
+            r.add(o.toString());
+        }
+        return r;
     }
     
     private String updateDescription(String old, Time tm) {

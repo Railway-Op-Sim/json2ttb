@@ -5,3 +5,4 @@ nbactions.xml
 *.lst
 target/maven-archiver/pom.properties
 *.class
+/.vscode/
