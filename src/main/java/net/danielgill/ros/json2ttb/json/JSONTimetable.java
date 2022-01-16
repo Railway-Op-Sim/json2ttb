@@ -142,7 +142,7 @@ public class JSONTimetable {
         while(old.contains("%t")) {
             int index = old.indexOf("%t");
             String timeUpd = old.substring(index, index + 8);
-            Time descTime = new Time(old.substring(index + 3, index + 7));
+            Time descTime = new Time(old.substring(index + 2, index + 7));
             descTime = descTime.getNewAddMinutes(tm.getMinutes());
             old = old.replace(timeUpd, descTime.toString());
         }
