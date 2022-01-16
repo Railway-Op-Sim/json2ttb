@@ -72,7 +72,7 @@
                 "00:15;Fer;N8-7"
             ],
             "times": [
-                "07:08","07:28",{"time":"07:48","description":"%t12:23% Does this work?"}
+                "07:08","07:28",{"time":"07:48","description":"%t12:00% Does this work?"}
             ]
         }
     ]

@@ -11,8 +11,8 @@ public class JSONService {
 	public final JSONArray times;
 
 	public final int startSpeed;
-        public final boolean usesDataTemplate;
-        public final String dataTemplate;
+    public final boolean usesDataTemplate;
+    public final String dataTemplate;
 	public final int maxSpeed;
 	public final int mass;
 	public final int maxBrake;
