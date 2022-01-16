@@ -13,6 +13,16 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.17.1</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.17.1</version>
+          </dependency>
+        <dependency>
             <groupId>net.danielgill.ros</groupId>
             <artifactId>timetable-lib</artifactId>
             <version>1.0.0</version>
