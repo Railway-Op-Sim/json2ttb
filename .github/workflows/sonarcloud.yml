@@ -1,4 +1,4 @@
-name: Build
+name: SonarCloud
 on:
   push:
     branches:
@@ -17,14 +17,22 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 16
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build
+      - name: Build and analyze
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           USER_NAME: ${{ secrets.USER_NAME }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: mvn -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml package
+        run: mvn -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Railway-Op-Sim_ros-json2ttb
