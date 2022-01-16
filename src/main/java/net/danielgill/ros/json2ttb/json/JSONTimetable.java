@@ -16,6 +16,9 @@ import net.danielgill.ros.timetable.reference.Reference;
 import net.danielgill.ros.timetable.service.Service;
 import net.danielgill.ros.timetable.template.Template;
 import net.danielgill.ros.timetable.time.Time;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,6 +27,7 @@ import org.json.simple.parser.ParseException;
 public class JSONTimetable {
     private JSONObject json;
     private Timetable timetable;
+    private static Logger logger = LogManager.getLogger(JSONTimetable.class);
     
     public JSONTimetable(File file) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();

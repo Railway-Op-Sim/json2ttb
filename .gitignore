@@ -6,3 +6,5 @@ nbactions.xml
 target/maven-archiver/pom.properties
 *.class
 /.vscode/
+/.apt_generated/
+/.apt_generated_tests/
