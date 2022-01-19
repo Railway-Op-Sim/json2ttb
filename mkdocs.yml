@@ -1,0 +1,28 @@
+site_name: json2ttb User Manual
+nav:
+  - Introduction: index.md
+  - Using the Program: installation.md
+  - JSON Structure: json.md
+  - Get Help: help.md
+  - Appendix A: appendixA.md
+plugins:
+  - mike:
+      version_selector: true
+      css_dir: css
+      javascript_dir: js
+      canonical_version: null
+theme:
+  name: material
+  features:
+    - toc.integrate
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline 
+        name: Switch to dark mode
+      primary: teal
+    - scheme: slate 
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+      primary: teal
