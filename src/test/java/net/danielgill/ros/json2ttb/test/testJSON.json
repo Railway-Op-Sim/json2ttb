@@ -47,6 +47,7 @@
             "description": "A to B",
             "startSpeed": 120,
             "maxSpeed": 150,
+            "mass":100,
             "maxBrake": 20,
             "power": 25,
             "increment": 2,
