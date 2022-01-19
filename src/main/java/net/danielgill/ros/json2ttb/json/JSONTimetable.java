@@ -14,6 +14,7 @@ import net.danielgill.ros.timetable.data.DataTemplates;
 import net.danielgill.ros.timetable.parse.ParseEvent;
 import net.danielgill.ros.timetable.reference.Reference;
 import net.danielgill.ros.timetable.service.Service;
+import net.danielgill.ros.timetable.service.ServiceInvalidException;
 import net.danielgill.ros.timetable.template.Template;
 import net.danielgill.ros.timetable.time.Time;
 
@@ -111,7 +112,13 @@ public class JSONTimetable {
                 }
             }
         }
-        return timetable.getTextTimetable();
+        try {
+            return timetable.getTextTimetable();
+        } catch (ServiceInvalidException e) {
+            logger.error(String.format("Error in timetable, service: %s", e.getRef()));
+            System.exit(0);
+            return null;
+        }
     }
     
     private Template createTemplate(JSONArray events, String reference, String description) {
