@@ -25,7 +25,7 @@
         <dependency>
             <groupId>net.danielgill.ros</groupId>
             <artifactId>timetable-lib</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </dependency>
     </dependencies>
     <properties>
