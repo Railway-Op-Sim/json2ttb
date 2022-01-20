@@ -1,0 +1,942 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>Appendix A - json2ttb User Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="json2ttb User Manual" class="md-header__button md-logo" aria-label="json2ttb User Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            json2ttb User Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Appendix A
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="json2ttb User Manual" class="md-nav__button md-logo" aria-label="json2ttb User Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    json2ttb User Manual
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Using the Program
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json/" class="md-nav__link">
+        JSON Structure
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help/" class="md-nav__link">
+        Get Help
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Appendix A
+      </a>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Appendix A</h1>
+                
+                <p>EMUs are listed first, then DMU/DEMUs.</p>
+<table>
+<thead>
+<tr>
+<th>Classes</th>
+<th>Keyword</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Class 313/0</td>
+<td>C313_0_3</td>
+</tr>
+<tr>
+<td>Class 313/1</td>
+<td>C313_1_3</td>
+</tr>
+<tr>
+<td>Class 313/2</td>
+<td>C313_2_3</td>
+</tr>
+<tr>
+<td>Class 314/2</td>
+<td>C314_2_3</td>
+</tr>
+<tr>
+<td>Class 315/8</td>
+<td>C315_8_3</td>
+</tr>
+<tr>
+<td>Class 317/1</td>
+<td>C317_1_4</td>
+</tr>
+<tr>
+<td>Class 317/5</td>
+<td>C317_5_4</td>
+</tr>
+<tr>
+<td>Class 317/6</td>
+<td>C317_6_4</td>
+</tr>
+<tr>
+<td>Class 317/7</td>
+<td>C317_7_4</td>
+</tr>
+<tr>
+<td>Class 317/8</td>
+<td>C317_8_4</td>
+</tr>
+<tr>
+<td>Class 318</td>
+<td>C318_3</td>
+</tr>
+<tr>
+<td>Class 319</td>
+<td>C319_4</td>
+</tr>
+<tr>
+<td>Class 320/3</td>
+<td>C320_3_3</td>
+</tr>
+<tr>
+<td>Class 321/3</td>
+<td>C321_3_4</td>
+</tr>
+<tr>
+<td>Class 321/4</td>
+<td>C321_4_4</td>
+</tr>
+<tr>
+<td>Class 322</td>
+<td>C322_4</td>
+</tr>
+<tr>
+<td>Class 323</td>
+<td>C323_3</td>
+</tr>
+<tr>
+<td>Class 325</td>
+<td>C325_4</td>
+</tr>
+<tr>
+<td>Class 331/0</td>
+<td>C331_0_3</td>
+</tr>
+<tr>
+<td>Class 331/1</td>
+<td>C331_1_4</td>
+</tr>
+<tr>
+<td>Class 332</td>
+<td>C332_4</td>
+</tr>
+<tr>
+<td>Class 333</td>
+<td>C333_4</td>
+</tr>
+<tr>
+<td>Class 334</td>
+<td>C334_3</td>
+</tr>
+<tr>
+<td>Class 345</td>
+<td>C345_9</td>
+</tr>
+<tr>
+<td>Class 350/1</td>
+<td>C350_1_4</td>
+</tr>
+<tr>
+<td>Class 350/2</td>
+<td>C350_2_4</td>
+</tr>
+<tr>
+<td>Class 350/3</td>
+<td>C350_3_4</td>
+</tr>
+<tr>
+<td>Class 350/4</td>
+<td>C350_4_4</td>
+</tr>
+<tr>
+<td>Class 357</td>
+<td>C357_4</td>
+</tr>
+<tr>
+<td>Class 360/1</td>
+<td>C360_1_4</td>
+</tr>
+<tr>
+<td>Class 360/5</td>
+<td>C360_5_5</td>
+</tr>
+<tr>
+<td>Class 365</td>
+<td>C365_4</td>
+</tr>
+<tr>
+<td>Class 373</td>
+<td>C373_16</td>
+</tr>
+<tr>
+<td>Class 373</td>
+<td>C373_20</td>
+</tr>
+<tr>
+<td>Class 374</td>
+<td>C374_16</td>
+</tr>
+<tr>
+<td>Class 375</td>
+<td>C375_3</td>
+</tr>
+<tr>
+<td>Class 375</td>
+<td>C375_4</td>
+</tr>
+<tr>
+<td>Class 376</td>
+<td>C376_5</td>
+</tr>
+<tr>
+<td>Class 377/1</td>
+<td>C377_1_4</td>
+</tr>
+<tr>
+<td>Class 377/2</td>
+<td>C377_2_4</td>
+</tr>
+<tr>
+<td>Class 377/3</td>
+<td>C377_3_3</td>
+</tr>
+<tr>
+<td>Class 377/4</td>
+<td>C377_4_4</td>
+</tr>
+<tr>
+<td>Class 377/5</td>
+<td>C377_5_4</td>
+</tr>
+<tr>
+<td>Class 377/6</td>
+<td>C377_6_5</td>
+</tr>
+<tr>
+<td>Class 377/7</td>
+<td>C377_7_5</td>
+</tr>
+<tr>
+<td>Class 378/0</td>
+<td>C378_0_3</td>
+</tr>
+<tr>
+<td>Class 378/0</td>
+<td>C378_0_4</td>
+</tr>
+<tr>
+<td>Class 378/1</td>
+<td>C378_1_5</td>
+</tr>
+<tr>
+<td>Class 378/2</td>
+<td>C378_2_7</td>
+</tr>
+<tr>
+<td>Class 379</td>
+<td>C379_4</td>
+</tr>
+<tr>
+<td>Class 380/0</td>
+<td>C380_0_3</td>
+</tr>
+<tr>
+<td>Class 380/1</td>
+<td>C380_1_4</td>
+</tr>
+<tr>
+<td>Class 385</td>
+<td>C385_3</td>
+</tr>
+<tr>
+<td>Class 385</td>
+<td>C385_4</td>
+</tr>
+<tr>
+<td>Class 387/1</td>
+<td>C387_1_4</td>
+</tr>
+<tr>
+<td>Class 387/2</td>
+<td>C387_2_4</td>
+</tr>
+<tr>
+<td>Class 387/3</td>
+<td>C387_3_4</td>
+</tr>
+<tr>
+<td>Class 390/0</td>
+<td>C390_0_9</td>
+</tr>
+<tr>
+<td>Class 390/1</td>
+<td>C390_1_11</td>
+</tr>
+<tr>
+<td>Class 395</td>
+<td>C395_6</td>
+</tr>
+<tr>
+<td>Class 399</td>
+<td>C399_3</td>
+</tr>
+<tr>
+<td>Class 442</td>
+<td>C442_5</td>
+</tr>
+<tr>
+<td>Class 444</td>
+<td>C444_5</td>
+</tr>
+<tr>
+<td>Class 450</td>
+<td>C450_4</td>
+</tr>
+<tr>
+<td>Class 455</td>
+<td>C455_4</td>
+</tr>
+<tr>
+<td>Class 456</td>
+<td>C456_2</td>
+</tr>
+<tr>
+<td>Class 458/0</td>
+<td>C458_0_4</td>
+</tr>
+<tr>
+<td>Class 458/5</td>
+<td>C458_5_5</td>
+</tr>
+<tr>
+<td>Class 460</td>
+<td>C460_8</td>
+</tr>
+<tr>
+<td>Class 465</td>
+<td>C465_4</td>
+</tr>
+<tr>
+<td>Class 466</td>
+<td>C466_2</td>
+</tr>
+<tr>
+<td>Class 482</td>
+<td>C482_2</td>
+</tr>
+<tr>
+<td>Class 483</td>
+<td>C483_3</td>
+</tr>
+<tr>
+<td>Class 507</td>
+<td>C507_3</td>
+</tr>
+<tr>
+<td>Class 508</td>
+<td>C508_3</td>
+</tr>
+<tr>
+<td>Class 700</td>
+<td>C700_8</td>
+</tr>
+<tr>
+<td>Class 707</td>
+<td>C707_5</td>
+</tr>
+<tr>
+<td>Class 710/1</td>
+<td>C710_1_4</td>
+</tr>
+<tr>
+<td>Class 710/2</td>
+<td>C710_2_4</td>
+</tr>
+<tr>
+<td>Class 717</td>
+<td>C717_6</td>
+</tr>
+<tr>
+<td>Class 801</td>
+<td>C801_5</td>
+</tr>
+<tr>
+<td>Class 801</td>
+<td>C801_9</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Class 139</td>
+<td>C139_1</td>
+</tr>
+<tr>
+<td>Class 142</td>
+<td>C142_2</td>
+</tr>
+<tr>
+<td>Class 143/0</td>
+<td>C143_0_2</td>
+</tr>
+<tr>
+<td>Class 143/3</td>
+<td>C143_3_2</td>
+</tr>
+<tr>
+<td>Class 143/6</td>
+<td>C143_6_2</td>
+</tr>
+<tr>
+<td>Class 144</td>
+<td>C144_2</td>
+</tr>
+<tr>
+<td>Class 144</td>
+<td>C144_3</td>
+</tr>
+<tr>
+<td>Class 150/0</td>
+<td>C150_0_3</td>
+</tr>
+<tr>
+<td>Class 150/1</td>
+<td>C150_1_2</td>
+</tr>
+<tr>
+<td>Class 150/2</td>
+<td>C150_2_2</td>
+</tr>
+<tr>
+<td>Class 150/9</td>
+<td>C150_9_3</td>
+</tr>
+<tr>
+<td>Class 153</td>
+<td>C153_1</td>
+</tr>
+<tr>
+<td>Class 155</td>
+<td>C155_2</td>
+</tr>
+<tr>
+<td>Class 156</td>
+<td>C156_2</td>
+</tr>
+<tr>
+<td>Class 158</td>
+<td>C158_2</td>
+</tr>
+<tr>
+<td>Class 158</td>
+<td>C158_3</td>
+</tr>
+<tr>
+<td>Class 159</td>
+<td>C159_3</td>
+</tr>
+<tr>
+<td>Class 165/0</td>
+<td>C165_0_2</td>
+</tr>
+<tr>
+<td>Class 165/0</td>
+<td>C165_0_3</td>
+</tr>
+<tr>
+<td>Class 165/1</td>
+<td>C165_1_2</td>
+</tr>
+<tr>
+<td>Class 165/1</td>
+<td>C165_1_3</td>
+</tr>
+<tr>
+<td>Class 166</td>
+<td>C166_3</td>
+</tr>
+<tr>
+<td>Class 168</td>
+<td>C168_3</td>
+</tr>
+<tr>
+<td>Class 168</td>
+<td>C168_4</td>
+</tr>
+<tr>
+<td>Class 170/1</td>
+<td>C170_1_2</td>
+</tr>
+<tr>
+<td>Class 170/1</td>
+<td>C170_1_3</td>
+</tr>
+<tr>
+<td>Class 170/2</td>
+<td>C170_2_2</td>
+</tr>
+<tr>
+<td>Class 170/2</td>
+<td>C170_2_3</td>
+</tr>
+<tr>
+<td>Class 170/3</td>
+<td>C170_3_3</td>
+</tr>
+<tr>
+<td>Class 170/4</td>
+<td>C170_4_3</td>
+</tr>
+<tr>
+<td>Class 170/5</td>
+<td>C170_5_2</td>
+</tr>
+<tr>
+<td>Class 170/6</td>
+<td>C170_6_3</td>
+</tr>
+<tr>
+<td>Class 170/6</td>
+<td>C170_6_3</td>
+</tr>
+<tr>
+<td>Class 171/7</td>
+<td>C171_7_2</td>
+</tr>
+<tr>
+<td>Class 171/8</td>
+<td>C171_8_4</td>
+</tr>
+<tr>
+<td>Class 172/0</td>
+<td>C172_0_2</td>
+</tr>
+<tr>
+<td>Class 172/1</td>
+<td>C172_1_2</td>
+</tr>
+<tr>
+<td>Class 172/2</td>
+<td>C172_2_2</td>
+</tr>
+<tr>
+<td>Class 172/3</td>
+<td>C172_3_3</td>
+</tr>
+<tr>
+<td>Class 175/0</td>
+<td>C175_0_2</td>
+</tr>
+<tr>
+<td>Class 175/1</td>
+<td>C175_1_3</td>
+</tr>
+<tr>
+<td>Class 180 <em>Zephyr</em></td>
+<td>C180_5</td>
+</tr>
+<tr>
+<td>Class 185 <em>Pennine</em></td>
+<td>C185_3</td>
+</tr>
+<tr>
+<td>Class 220 <em>Voyager</em></td>
+<td>C220_4</td>
+</tr>
+<tr>
+<td>Class 220 <em>Voyager</em></td>
+<td>C220_4</td>
+</tr>
+<tr>
+<td>Class 221 <em>Super Voyager</em></td>
+<td>C221_4</td>
+</tr>
+<tr>
+<td>Class 221 <em>Super Voyager</em></td>
+<td>C221_5</td>
+</tr>
+<tr>
+<td>Class 222/0 <em>Meridian</em></td>
+<td>C222_0_5</td>
+</tr>
+<tr>
+<td>Class 222/0 <em>Meridian</em></td>
+<td>C222_0_7</td>
+</tr>
+<tr>
+<td>Class 222/0 <em>Meridian</em></td>
+<td>C222_0_4</td>
+</tr>
+<tr>
+<td>Class 195/0</td>
+<td>C195_0_2</td>
+</tr>
+<tr>
+<td>Class 195/1</td>
+<td>C195_1_3</td>
+</tr>
+<tr>
+<td>Class 230</td>
+<td>C230_2</td>
+</tr>
+<tr>
+<td>Class 230</td>
+<td>C230_3</td>
+</tr>
+<tr>
+<td>Class 755/3</td>
+<td>C755_3_3</td>
+</tr>
+<tr>
+<td>Class 755/4</td>
+<td>C755_4_4</td>
+</tr>
+<tr>
+<td>Class 756/3</td>
+<td>C756_3_3</td>
+</tr>
+<tr>
+<td>Class 756/4</td>
+<td>C756_4_4</td>
+</tr>
+<tr>
+<td>Class 800/1</td>
+<td>C800_1_5</td>
+</tr>
+<tr>
+<td>Class 800/2</td>
+<td>C800_2_9</td>
+</tr>
+<tr>
+<td>Class 800/1</td>
+<td>C800_1_9</td>
+</tr>
+<tr>
+<td>Class 802</td>
+<td>C802_5</td>
+</tr>
+<tr>
+<td>Class 68 +MK5+DVT <em>Nova</em></td>
+<td>C68_5</td>
+</tr>
+<tr>
+<td>Class 67 +MK3+DVT</td>
+<td>C67_4</td>
+</tr>
+<tr>
+<td>Class 67 +MK3+DVT</td>
+<td>C67_6</td>
+</tr>
+<tr>
+<td>Class 43 HST <em>Castle</em></td>
+<td>C43_4</td>
+</tr>
+<tr>
+<td>Class 43 HST (2+6, B)</td>
+<td>C43_6</td>
+</tr>
+<tr>
+<td>Class 43 HST (2+7)</td>
+<td>C43_7</td>
+</tr>
+<tr>
+<td>Class 43 HST (2+8)</td>
+<td>C43_8</td>
+</tr>
+<tr>
+<td>Class 43 HST (2+9)</td>
+<td>C43_9</td>
+</tr>
+</tbody>
+</table>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../help/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Get Help" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Get Help
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>
