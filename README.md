@@ -7,4 +7,4 @@ A Java application which can create an ROS timetable from a structured JSON time
 - In a command line enter: `java -jar <path to jar> <path to json>`
 - The `.ttb` file will be produced in the same directory as the `.json`
 
-**More details can be found in the documentation [here.](https://github.com/Railway-Op-Sim/json2ttb/blob/master/docs/DOCS.md)**
+**More details can be found in the documentation [here.](https://railway-op-sim.github.io/json2ttb/)**
