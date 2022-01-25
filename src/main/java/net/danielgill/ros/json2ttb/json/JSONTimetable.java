@@ -32,6 +32,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class JSONTimetable {
+    private final String START_TIME = "startTime";
     private JSONObject json;
     private Timetable timetable;
     private static Logger logger = LogManager.getLogger(JSONTimetable.class);
@@ -40,10 +41,11 @@ public class JSONTimetable {
     private List<String> earlyRefs;
 
     public JSONTimetable(File file) throws IOException, ParseException {
+
         JSONParser jsonParser = new JSONParser();
         json = (JSONObject) jsonParser.parse(new FileReader(file));
-        timetable = new Timetable(new Time(json.get("startTime").toString()));
-        this.startTime = new Time(json.get("startTime").toString());
+        timetable = new Timetable(new Time(json.get(START_TIME).toString()));
+        this.startTime = new Time(json.get(START_TIME).toString());
         warnEarlyService = true;
         earlyRefs = new ArrayList<>();
     }
@@ -51,8 +53,8 @@ public class JSONTimetable {
     public JSONTimetable(File file, Time interval) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
         json = (JSONObject) jsonParser.parse(new FileReader(file));
-        timetable = new Timetable(new Time(json.get("startTime").toString()).addMinutes(interval.getMinutes()));
-        this.startTime = new Time(json.get("startTime").toString()).addMinutes(interval.getMinutes());
+        timetable = new Timetable(new Time(json.get(START_TIME).toString()).addMinutes(interval.getMinutes()));
+        this.startTime = new Time(json.get(START_TIME).toString()).addMinutes(interval.getMinutes());
         warnEarlyService = false;
         earlyRefs = new ArrayList<>();
     }
@@ -121,7 +123,7 @@ public class JSONTimetable {
                     } else {
                         if(warnEarlyService) {
                             earlyRefs.add(tempService.getRef().toString());
-                            logger.warn("Service " + tempService.getRef() + " starts before timetable start time, it will not be included.");
+                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef().toString());
                         }
                     }
                 } else {
@@ -141,7 +143,7 @@ public class JSONTimetable {
                     } else {
                         earlyRefs.add(tempService.getRef().toString());
                         if(warnEarlyService) {
-                            logger.warn("Service " + tempService.getRef() + " starts before timetable start time, it will not be included.");
+                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef().toString());
                         }
                     }
                 }
@@ -200,33 +202,16 @@ public class JSONTimetable {
     }
 
     private boolean checkEarlyService(Event evt, Reference ref) {
-        if(evt instanceof SntEvent) {
-            SntEvent snt = (SntEvent) evt;
-            if(snt.getTime().earlierThan(startTime)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if(evt instanceof SnsEvent) {
-            SnsEvent sns = (SnsEvent) evt;
+        if(evt instanceof SntEvent snt) {
+            return (snt.getTime().earlierThan(startTime));
+        } else if(evt instanceof SnsEvent sns) {
             if(sns.getTime().earlierThan(startTime)) {
                 return true;
             } else {
-                if(earlyRefs.contains(sns.getRef().toString())) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        } else if(evt instanceof SfsEvent) {
-            SnsEvent sfs = (SnsEvent) evt;
-            if(sfs.getTime().earlierThan(startTime)) {
-                return true;
-            } else {
-                return false;
+                return (earlyRefs.contains(sns.getRef().toString()));
             }
         } else {
-            logger.error("Instance " + ref.getRef() + " does not appear to have a starting event type, please check.");
+            logger.error("Instance {} does not appear to have a starting event type, please check.", ref.getRef());
             return false;
         }
     }

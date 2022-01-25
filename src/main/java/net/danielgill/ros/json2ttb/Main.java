@@ -28,6 +28,7 @@ public class Main {
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
+        FileWriter fw = null;
         try {
             cmd = parser.parse(options, args);
 
@@ -54,25 +55,23 @@ public class Main {
             JSONTimetable json = new JSONTimetable(file);
             String ttb = json.createTimetable();
             File outputFile = new File(file.getAbsolutePath().replace(".json", ".ttb"));
-            logger.info("Output file will be: " + outputFile.getAbsolutePath());
-            FileWriter fw = new FileWriter(outputFile);
+            logger.info("Output file will be: {}", outputFile.getAbsolutePath());
+            fw = new FileWriter(outputFile);
             fw.write(ttb);
-            fw.close();
 
             if(cmd.hasOption("i") && cmd.hasOption("t")) {
                 Time interval = new Time(cmd.getOptionValue("i"));
-                int interval_mins = interval.getMinutes();
+                int intervalMins = interval.getMinutes();
                 int times = Integer.parseInt(cmd.getOptionValue("t"));
 
                 for(int i = 0; i < times; i++) {
                     json = new JSONTimetable(file, interval);
                     ttb = json.createTimetable();
                     outputFile = new File(file.getAbsolutePath().replace(".json", "-") + json.getStartTime().toString().replace(":", "") + ".ttb");
-                    logger.info(interval + " file will be: " + outputFile.getAbsolutePath());
+                    logger.info("{} file will be: {}", interval, outputFile.getAbsolutePath());
                     fw = new FileWriter(outputFile);
                     fw.write(ttb);
-                    fw.close();
-                    interval.addMinutes(interval_mins);
+                    interval.addMinutes(intervalMins);
                 }
             } else if(cmd.hasOption("i")) {
                 logger.error("You are missing the -t argument, see --help for more information.");
@@ -83,6 +82,8 @@ public class Main {
         } catch (org.apache.commons.cli.ParseException e) {
             logger.error("Unexpected error in command line arguments.");
             System.exit(0);
+        } finally {
+            fw.close();
         }
     }
 }
