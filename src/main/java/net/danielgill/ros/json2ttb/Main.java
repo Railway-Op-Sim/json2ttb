@@ -44,7 +44,7 @@ public class Main {
             } else {
                 if(args.length == 1) {
                     file = new File(args[0]);
-                    logger.warn("Using single file detected, though please use '-f <path to file>' in the future.");
+                    logger.warn("Using the single argument detected as file input, please use '-f <path to file>' in the future.");
                 } else {
                     logger.error("Missing .json file to be parsed.");
                     System.exit(0);
@@ -75,9 +75,9 @@ public class Main {
                     interval.addMinutes(interval_mins);
                 }
             } else if(cmd.hasOption("i")) {
-                logger.warn("You are missing the -t argument, see -help for more information.");
+                logger.error("You are missing the -t argument, see --help for more information.");
             } else if(cmd.hasOption("t")) {
-                logger.warn("You are missing the -i argument, see -help for more information.");
+                logger.error("You are missing the -i argument, see --help for more information.");
             }
             
         } catch (org.apache.commons.cli.ParseException e) {
