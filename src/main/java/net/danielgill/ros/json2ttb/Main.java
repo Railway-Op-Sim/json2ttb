@@ -23,6 +23,7 @@ public class Main {
         Options options = new Options();
         options.addOption("f", "file", true, "The json file to be parsed.");
         options.addOption("i", "interval", true, "The time interval for generating several timetables.");
+        options.addOption("t", "times", true, "The number of extra timetables to generate with the given interval.");
         options.addOption("h", "help", false, "Opens this help message.");
 
         CommandLineParser parser = new DefaultParser();
@@ -43,7 +44,7 @@ public class Main {
             } else {
                 if(args.length == 1) {
                     file = new File(args[0]);
-                    logger.warn("Missing -f <file> argument, but the single argument.");
+                    logger.warn("Using single file detected, though please use '-f <path to file>' in the future.");
                 } else {
                     logger.error("Missing .json file to be parsed.");
                     System.exit(0);
@@ -58,20 +59,25 @@ public class Main {
             fw.write(ttb);
             fw.close();
 
-            if(cmd.hasOption("i")) {
+            if(cmd.hasOption("i") && cmd.hasOption("t")) {
                 Time interval = new Time(cmd.getOptionValue("i"));
                 int interval_mins = interval.getMinutes();
+                int times = Integer.parseInt(cmd.getOptionValue("t"));
 
-                for(int i = 0; i < 8; i++) {
+                for(int i = 0; i < times; i++) {
                     json = new JSONTimetable(file, interval);
                     ttb = json.createTimetable();
                     outputFile = new File(file.getAbsolutePath().replace(".json", "-") + json.getStartTime().toString().replace(":", "") + ".ttb");
-                    logger.info("Output file will be: " + outputFile.getAbsolutePath());
+                    logger.info(interval + " file will be: " + outputFile.getAbsolutePath());
                     fw = new FileWriter(outputFile);
                     fw.write(ttb);
                     fw.close();
                     interval.addMinutes(interval_mins);
                 }
+            } else if(cmd.hasOption("i")) {
+                logger.warn("You are missing the -t argument, see -help for more information.");
+            } else if(cmd.hasOption("t")) {
+                logger.warn("You are missing the -i argument, see -help for more information.");
             }
             
         } catch (org.apache.commons.cli.ParseException e) {
