@@ -1,5 +1,5 @@
 {
-    "startTime": "07:00",
+    "startTime": "06:30",
     "dataTemplates": [
         {
             "keyword":"TestTemplate",
@@ -18,7 +18,7 @@
             "increment": 2,
             "events": [
                 "23:54;Snt;N8-6 N8-7",
-                "00:01;00:03;A",
+                {"1A..":"00:01;00:03;C","1A03":"00:01;00:03;A"},
                 "00:07;00:07;B",
                 "00:09;Fer;21-2"
             ],
