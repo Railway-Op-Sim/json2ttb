@@ -18,6 +18,7 @@ import java.io.IOException;
 
 public class Main {
     private static Logger logger = LogManager.getLogger(Main.class);
+    private static FileWriter fw;
 
     public static void main(String[] args) throws IOException, ParseException {
         Options options = new Options();
@@ -28,7 +29,7 @@ public class Main {
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
-        FileWriter fw = null;
+        
         try {
             cmd = parser.parse(options, args);
 
@@ -58,6 +59,7 @@ public class Main {
             logger.info("Output file will be: {}", outputFile.getAbsolutePath());
             fw = new FileWriter(outputFile);
             fw.write(ttb);
+            fw.close();
 
             if(cmd.hasOption("i") && cmd.hasOption("t")) {
                 Time interval = new Time(cmd.getOptionValue("i"));
@@ -73,6 +75,7 @@ public class Main {
                     fw.write(ttb);
                     interval.addMinutes(intervalMins);
                 }
+                fw.close();
             } else if(cmd.hasOption("i")) {
                 logger.error("You are missing the -t argument, see --help for more information.");
             } else if(cmd.hasOption("t")) {
@@ -81,6 +84,7 @@ public class Main {
             
         } catch (org.apache.commons.cli.ParseException e) {
             logger.error("Unexpected error in command line arguments.");
+            fw.close();
             System.exit(0);
         } finally {
             fw.close();
