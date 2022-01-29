@@ -151,7 +151,7 @@ public class JSONTimetable {
         try {
             return timetable.getTextTimetable();
         } catch (ServiceInvalidException e) {
-            logger.error(String.format("Error in timetable, service: %s", e.getRef()));
+            logger.error(String.format("Unexpected error in timetable service %s", e.getRef()));
             System.exit(0);
             return null;
         }
@@ -168,11 +168,16 @@ public class JSONTimetable {
             Object evt = events.get(i);
             if(evt instanceof JSONObject) {
                 Set<String> set = castStringSet(((JSONObject) evt).keySet());
+                boolean matches = false;
                 for(String regex : set) {
                     if(Pattern.matches(regex, reference)) {
                         template.addEvent(parse.getEventFromString(((JSONObject) evt).get(regex).toString()));
-                        continue;
+                        matches = true;
+                        break;
                     }
+                }
+                if(!matches) {
+                    logger.info("Service with ref {} does not match any regex for an event.", reference);
                 }
             } else {
                 template.addEvent(parse.getEventFromString(events.get(i).toString()));

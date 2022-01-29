@@ -20,7 +20,7 @@ public class Main {
     private static Logger logger = LogManager.getLogger(Main.class);
     private static FileWriter fw;
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) {
         Options options = new Options();
         options.addOption("f", "file", true, "The json file to be parsed.");
         options.addOption("i", "interval", true, "The time interval for generating several timetables.");
@@ -84,10 +84,26 @@ public class Main {
             
         } catch (org.apache.commons.cli.ParseException e) {
             logger.error("Unexpected error in command line arguments.");
-            fw.close();
+            try {
+                fw.close();
+            } catch (IOException eClose) {
+                logger.error("Tried writing to closed file.");
+                System.exit(0);
+            }
+            System.exit(0);
+        } catch (IOException e) {
+            logger.error("Error reading file, make sure the file exists or is spelt correctly in the command.");
+            System.exit(0);
+        } catch (ParseException e) {
+            logger.error("Error parsing JSON, make sure that the JSON is valid.");
             System.exit(0);
         } finally {
-            fw.close();
+            try {
+                fw.close();
+            } catch (IOException e) {
+                logger.error("Tried writing to closed file.");
+                System.exit(0);
+            }
         }
     }
 }
