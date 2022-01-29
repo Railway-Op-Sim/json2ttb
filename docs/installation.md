@@ -16,8 +16,26 @@ You can download the latest version from the json2ttb GitHub repository [here](h
 
 ## Running the Program
 
-In a command prompt window (or PowerShell), enter the following command and run it with relevant details filled in.
+In a command prompt or terminal window, enter the following command and run it with relevant details filled in.
 
-    java -jar <path to jar> <path to json>
+    java -jar <path to jar> -f <path to json>
 
-The ttb file will be created in the same directory as the json file.
+The ttb file will be created in the same directory as the json file, the location of the new ttb file will be printed to the command line.
+
+### Creating Later Starting Timetables
+
+json2ttb allows the user to create any number of timetables that start later than the original start time. This can allow the user to experience more of the timetable by having the option to start later. To do this, you can add two more arguments to the command. For example:
+
+    java -jar <path to jar> -f <path to json> -i 01:00 -t 5
+
+will create 5 **extra** timetables each with a start time 1 hour after the last, the first of which will **start 1 hour after the original.** 
+
+### Command Line Help
+
+There is a command help menu built into the program, which can be found by typing:
+
+    java -jar <path to jar> -h
+
+or
+
+    java -jar <path to jar> --help

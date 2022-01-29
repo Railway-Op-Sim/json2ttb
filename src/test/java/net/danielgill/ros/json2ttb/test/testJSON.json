@@ -18,61 +18,12 @@
             "increment": 2,
             "events": [
                 "23:54;Snt;N8-6 N8-7",
-                {"1A03":"00:00;00:04;A","1A05":"00:01;00:03;A"},
-                {"^((?!1A03).)*$":"00:07;00:07;B"},
+                "00:01;00:03;A",
+                "00:07;00:07;B",
                 "00:09;Fer;21-2"
             ],
             "times": [
-                "07:04",{"time":"07:34","description":"C to B via A"},"07:54"
-            ]
-        },
-        {
-            "ref": "1A02",
-            "description": "B to A",
-            "startSpeed": 120,
-            "dataTemplate":"C323_3",
-            "increment": 2,
-            "events": [
-                "07:14;Snt;21-1 21-2",
-                "07:16;07:16;B",
-                "07:19;07:19;A",
-                "07:22;Fer;8-7"
-            ],
-            "times": [
-                "00:00"
-            ]
-        },
-        {
-            "ref": "1B01",
-            "description": "A to B",
-            "startSpeed": 120,
-            "maxSpeed": 150,
-            "mass":100,
-            "maxBrake": 20,
-            "power": 25,
-            "increment": 2,
-            "events": [
-                "23:54;Snt;N8-6 N8-7",
-                "00:00;00:04;A",
-                "00:07;B",
-                "00:09;Fns;1B02"
-            ],
-            "times": [
-                "07:08",{"time":"07:28","dataTemplate":"C180_5"},"07:48"
-            ]
-        },
-        {
-            "ref": "1B02",
-            "description": "%t00:13% A to B",
-            "increment": 2,
-            "events": [
-                "00:09;Sns;1B01",
-                "00:10;B",
-                "00:13;00:13;A",
-                "00:15;Fer;N8-7"
-            ],
-            "times": [
-                "07:08","07:28",{"time":"07:48","description":"%t12:00% Does this work?"}
+                "07:04","07:34","07:54"
             ]
         }
     ]
