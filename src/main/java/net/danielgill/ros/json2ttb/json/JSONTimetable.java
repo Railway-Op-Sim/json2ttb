@@ -14,7 +14,6 @@ import net.danielgill.ros.timetable.*;
 import net.danielgill.ros.timetable.data.Data;
 import net.danielgill.ros.timetable.data.DataTemplates;
 import net.danielgill.ros.timetable.event.Event;
-import net.danielgill.ros.timetable.event.SfsEvent;
 import net.danielgill.ros.timetable.event.SnsEvent;
 import net.danielgill.ros.timetable.event.SntEvent;
 import net.danielgill.ros.timetable.parse.ParseEvent;
@@ -32,7 +31,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class JSONTimetable {
-    private final String START_TIME = "startTime";
+    private final static String START_TIME = "startTime";
     private JSONObject json;
     private Timetable timetable;
     private static Logger logger = LogManager.getLogger(JSONTimetable.class);
@@ -121,9 +120,9 @@ public class JSONTimetable {
                     if(!checkEarlyService(tempService.getEventFromIndex(0), tempService.getRef())) {
                         timetable.addService(tempService);
                     } else {
+                        earlyRefs.add(tempService.getRef().toString());
                         if(warnEarlyService) {
-                            earlyRefs.add(tempService.getRef().toString());
-                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef().toString());
+                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef());
                         }
                     }
                 } else {
@@ -143,7 +142,7 @@ public class JSONTimetable {
                     } else {
                         earlyRefs.add(tempService.getRef().toString());
                         if(warnEarlyService) {
-                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef().toString());
+                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef());
                         }
                     }
                 }
