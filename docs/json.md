@@ -42,7 +42,7 @@ To be contained in here will be the start time of the timetable, and an array wh
 
 ## Service Information <a name="service"></a>
 
-To create a new service, we start with an object inside the `services` array. This object **requires** the following information:
+To create a new service, we start with an object inside the `services` array. This object takes the following information:
 
 ```json
 {
@@ -64,7 +64,7 @@ To create a new service, we start with an object inside the `services` array. Th
 
 We can replace `maxSpeed`, `mass`, `maxBrake` and `power` with a `dataTemplate`. Find more information [here](#datatemp).
 
-The `maxSpeed`, `mass`, `maxBrake` and `power` or `dataTemplate` does not need to be included for services that form from another service. (i.e their first event is a Sns.) If this data is excluded from a service that requires it, it will throw an error message when you run json2ttb, and the resulting file will not contain the offending service, or the `.ttb` may not work at all.
+The `maxSpeed`, `mass`, `maxBrake`, `power` (or `dataTemplate`), and `startSpeed` does not need to be included for services that form from another service. (i.e their first event is a Sns.) If this data is excluded from a service that requires it, it will throw an error message when you run json2ttb, and the resulting file will not contain the offending service, or the `.ttb` may not work at all.
 
 Within the service object, we also need to include `events` and `times` arrays:
 
@@ -220,6 +220,16 @@ Or another example, where only instances 1A01 and 1A03 stop at C, and only 1A02 
     ],
     ...
 ```
+
+You can also include several intances in a single event object as below:
+
+```json
+      ...
+      {"1A01":"00:05;00:05;C","....":"00:06;00:06;C"},
+      ...
+```
+
+In this case, the first valid key for an instance will be chosen, for example, for `1A01`, it will pick the first option, however, for all others it will pick the second option.
 
 ## Change Information per Instance <a name="times"></a>
 
