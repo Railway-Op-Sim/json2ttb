@@ -14,6 +14,7 @@ import net.danielgill.ros.timetable.*;
 import net.danielgill.ros.timetable.data.Data;
 import net.danielgill.ros.timetable.data.DataTemplates;
 import net.danielgill.ros.timetable.event.Event;
+import net.danielgill.ros.timetable.event.SfsEvent;
 import net.danielgill.ros.timetable.event.SnsEvent;
 import net.danielgill.ros.timetable.event.SntEvent;
 import net.danielgill.ros.timetable.parse.ParseEvent;
@@ -214,6 +215,8 @@ public class JSONTimetable {
             } else {
                 return (earlyRefs.contains(sns.getRef().toString()));
             }
+        } else if(evt instanceof SfsEvent sfs) {
+            
         } else {
             logger.error("Instance {} does not appear to have a starting event type, please check.", ref.getRef());
             return false;
