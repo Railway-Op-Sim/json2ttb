@@ -55,12 +55,12 @@ public class Main {
             
             JSONTimetable json = new JSONTimetable(file);
             String ttb = json.createTimetable();
+            System.out.println(ttb);
             File outputFile = new File(file.getAbsolutePath().replace(".json", ".ttb"));
             logger.info("Output file will be: {}", outputFile.getAbsolutePath());
             fw = new FileWriter(outputFile);
             fw.write(ttb);
             fw.close();
-
             if(cmd.hasOption("i") && cmd.hasOption("t")) {
                 Time interval = new Time(cmd.getOptionValue("i"));
                 int intervalMins = interval.getMinutes();
@@ -73,6 +73,7 @@ public class Main {
                     logger.info("{} file will be: {}", interval, outputFile.getAbsolutePath());
                     fw = new FileWriter(outputFile);
                     fw.write(ttb);
+                    fw.close();
                     interval.addMinutes(intervalMins);
                 }
                 fw.close();
@@ -84,12 +85,6 @@ public class Main {
             
         } catch (org.apache.commons.cli.ParseException e) {
             logger.error("Unexpected error in command line arguments.");
-            try {
-                fw.close();
-            } catch (IOException eClose) {
-                logger.error("Tried writing to closed file.");
-                System.exit(0);
-            }
             System.exit(0);
         } catch (IOException e) {
             logger.error("Error reading file, make sure the file exists or is spelt correctly in the command.");
@@ -97,13 +92,6 @@ public class Main {
         } catch (ParseException e) {
             logger.error("Error parsing JSON, make sure that the JSON is valid.");
             System.exit(0);
-        } finally {
-            try {
-                fw.close();
-            } catch (IOException e) {
-                logger.error("Tried writing to closed file.");
-                System.exit(0);
-            }
         }
     }
 }
