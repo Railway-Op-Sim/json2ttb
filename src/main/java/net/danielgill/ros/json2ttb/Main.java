@@ -20,7 +20,7 @@ public class Main {
     private static Logger logger = LogManager.getLogger(Main.class);
     private static FileWriter fw;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Options options = new Options();
         options.addOption("f", "file", true, "The json file to be parsed.");
         options.addOption("i", "interval", true, "The time interval for generating several timetables.");
@@ -76,7 +76,6 @@ public class Main {
                     fw.close();
                     interval.addMinutes(intervalMins);
                 }
-                fw.close();
             } else if(cmd.hasOption("i")) {
                 logger.error("You are missing the -t argument, see --help for more information.");
             } else if(cmd.hasOption("t")) {
