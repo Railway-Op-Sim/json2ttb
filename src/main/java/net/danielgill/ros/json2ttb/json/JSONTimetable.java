@@ -216,7 +216,11 @@ public class JSONTimetable {
                 return (earlyRefs.contains(sns.getRef().toString()));
             }
         } else if(evt instanceof SfsEvent sfs) {
-            
+            if(sfs.getTime().earlierThan(startTime)) {
+                return true;
+            } else {
+                return (earlyRefs.contains(sfs.getRef().toString()));
+            }
         } else {
             logger.error("Instance {} does not appear to have a starting event type, please check.", ref.getRef());
             return false;

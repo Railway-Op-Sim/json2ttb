@@ -1,5 +1,5 @@
 {
-    "startTime": "06:30",
+    "startTime": "07:00",
     "dataTemplates": [
         {
             "keyword":"TestTemplate",
@@ -32,6 +32,8 @@
             "ref":"1B01",
             "description":"New A to B",
             "increment":2,
+            "startSpeed":120,
+            "dataTemplate":"TestTemplate",
             "events": [
                 "00:02;Sfs;1A01",
                 "00:04;A",
