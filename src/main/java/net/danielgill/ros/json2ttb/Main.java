@@ -55,7 +55,6 @@ public class Main {
             
             JSONTimetable json = new JSONTimetable(file);
             String ttb = json.createTimetable();
-            System.out.println(ttb);
             File outputFile = new File(file.getAbsolutePath().replace(".json", ".ttb"));
             logger.info("Output file will be: {}", outputFile.getAbsolutePath());
             fw = new FileWriter(outputFile);
