@@ -1,47 +1,38 @@
 {
-    "startTime": "07:00",
-    "dataTemplates": [
-        {
-            "keyword":"TestTemplate",
-            "maxSpeed": 150,
-            "mass": 100,
-            "maxBrake": 20,
-            "power": 25
-        }
-    ],
+    "startTime": "06:00",
     "services": [
         {
-            "ref": "1A01",
-            "description": "A to B",
-            "startSpeed": 120,
-            "dataTemplate":"TestTemplate",
+            "ref":"1A01",
+            "description":"Terminating",
+            "startSpeed":80,
+            "maxSpeed": 121,
+            "mass": 200,
+            "maxBrake": 149,
+            "power": 1500,
             "increment": 2,
+            "becomes":"1A02",
             "events": [
-                "23:54;Snt;N8-6 N8-7",
-                "00:01;A",
-                "00:02;Rsp;1B01",
-                "00:03;A",
-                "00:07;00:07;B",
-                "00:09;Fer;21-2"
+                "23:40;Snt;2-3 2-2",
+                "23:59;A",
+                "00:00;cdt",
+                "00:00;Fns;1A02"
             ],
             "times": [
-                "07:04","07:34","07:54"
+                "07:13","07:30","07:37","07:45"
             ]
         },
         {
-            "ref":"1B01",
-            "description":"New A to B",
+            "ref":"1A02",
+            "description":"Departing",
             "increment":2,
-            "startSpeed":120,
-            "dataTemplate":"TestTemplate",
+            "from":"1A01",
             "events": [
-                "00:02;Sfs;1A01",
-                "00:04;A",
-                "00:08;00:08;B",
-                "00:10;Fer;21-2"
+                "00:00;Sns;1A01",
+                "00:00;A",
+                "00:19;Fer;2-3"
             ],
             "times": [
-                "07:04","07:34","07:54"
+                "07:15","07:35","07:37","07:45"
             ]
         }
     ]

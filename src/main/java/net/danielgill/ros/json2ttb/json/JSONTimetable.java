@@ -5,15 +5,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.danielgill.ros.json2ttb.link.LinkQueue;
 import net.danielgill.ros.timetable.*;
 import net.danielgill.ros.timetable.data.Data;
 import net.danielgill.ros.timetable.data.DataTemplates;
 import net.danielgill.ros.timetable.event.Event;
+import net.danielgill.ros.timetable.event.FnsEvent;
 import net.danielgill.ros.timetable.event.SfsEvent;
 import net.danielgill.ros.timetable.event.SnsEvent;
 import net.danielgill.ros.timetable.event.SntEvent;
@@ -39,6 +43,7 @@ public class JSONTimetable {
     private boolean warnEarlyService;
     private Time startTime;
     private List<String> earlyRefs;
+    private Map<String, LinkQueue> links;
 
     public JSONTimetable(File file) throws IOException, ParseException {
 
@@ -48,6 +53,7 @@ public class JSONTimetable {
         this.startTime = new Time(json.get(START_TIME).toString());
         warnEarlyService = true;
         earlyRefs = new ArrayList<>();
+        links = new HashMap<>();
     }
     
     public JSONTimetable(File file, Time interval) throws IOException, ParseException {
@@ -57,6 +63,7 @@ public class JSONTimetable {
         this.startTime = new Time(json.get(START_TIME).toString()).addMinutes(interval.getMinutes());
         warnEarlyService = false;
         earlyRefs = new ArrayList<>();
+        links = new HashMap<>();
     }
     
     public String createTimetable() {
@@ -84,6 +91,10 @@ public class JSONTimetable {
                 data = new Data(s.startSpeed, dts.getTemplate(s.dataTemplate).getData());
             } else {
                 data = new Data(s.startSpeed, s.maxSpeed, s.mass, s.maxBrake, s.power);
+            }
+
+            if(s.linksForward) {
+                links.put(s.ref, new LinkQueue(s.ref, s.becomes));
             }
             
             JSONArray times = (JSONArray) s.times;
@@ -115,15 +126,24 @@ public class JSONTimetable {
                         tempService = new Service(new Reference(ref), description, data);
                     }
 
-                    Template template = createTemplate(s.events, ref, description);
+                    Template template = createTemplate(s.events, ref, description, s.linksBackward, s.becomes);
+                    if(s.linksForward) {
+                        FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
+                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(new Time(timeJSON.get("time").toString()).getMinutes()));
+                    }
+
                     tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), s.increment * j);
+                    if(s.linksBackward) {
+                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(new Time(timeJSON.get("time").toString()), tempService.getRef());
+                        tempService.setEventAtIndex(0, sns);
+                    }
                     
                     if(!checkEarlyService(tempService.getEventFromIndex(0), tempService.getRef())) {
                         timetable.addService(tempService);
                     } else {
                         earlyRefs.add(tempService.getRef().toString());
                         if(warnEarlyService) {
-                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef());
+                            logger.warn("Instance {} starts before timetable start time, it will not be included.", tempService.getRef());
                         }
                     }
                 } else {
@@ -135,15 +155,24 @@ public class JSONTimetable {
 
                     Service tempService = new Service(new Reference(ref), description, data);
                     
-                    Template template = createTemplate(s.events, ref, description);
+                    Template template = createTemplate(s.events, ref, description, s.linksBackward, s.becomes);
+                    if(s.linksForward) {
+                        FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
+                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(new Time(times.get(j).toString()).getMinutes()));
+                    }
+
                     tempService.addTemplate(template, new Time(times.get(j).toString()), s.increment * j);
+                    if(s.linksBackward) {
+                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(new Time(times.get(j).toString()), tempService.getRef());
+                        tempService.setEventAtIndex(0, sns);
+                    }
                     
                     if(!checkEarlyService(tempService.getEventFromIndex(0), tempService.getRef())) {
                         timetable.addService(tempService);
                     } else {
                         earlyRefs.add(tempService.getRef().toString());
                         if(warnEarlyService) {
-                            logger.warn("Service {} starts before timetable start time, it will not be included.", tempService.getRef());
+                            logger.warn("Instance {} starts before timetable start time, it will not be included.", tempService.getRef());
                         }
                     }
                 }
@@ -162,7 +191,7 @@ public class JSONTimetable {
         return this.startTime;
     }
     
-    private Template createTemplate(JSONArray events, String reference, String description) {
+    private Template createTemplate(JSONArray events, String reference, String description, boolean linksBackward, String from) {
         Template template = new Template(description);
         ParseEvent parse = new ParseEvent();
         for(int i = 0; i < events.size(); i++) {
