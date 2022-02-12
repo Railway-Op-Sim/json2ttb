@@ -104,6 +104,7 @@ public class JSONTimetable {
                     JSONObject timeJSON = (JSONObject) time;
                     String ref = s.ref;
                     String description = s.description;
+                    Time tm = new Time(timeJSON.get("time").toString());
                     
                     if(timeJSON.containsKey("ref")) {
                         ref = timeJSON.get("ref").toString();
@@ -115,7 +116,7 @@ public class JSONTimetable {
                         description = timeJSON.get("description").toString();
                     }
                     
-                    description = updateDescription(description, new Time(timeJSON.get("time").toString()));
+                    description = updateDescription(description, tm);
                     
                     Service tempService;
                     
@@ -126,15 +127,17 @@ public class JSONTimetable {
                         tempService = new Service(new Reference(ref), description, data);
                     }
 
-                    Template template = createTemplate(s.events, ref, description, s.linksBackward, s.becomes);
+                    Template template = createTemplate(s.events, ref, description);
+                    
                     if(s.linksForward) {
                         FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
-                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(new Time(timeJSON.get("time").toString()).getMinutes()));
+                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(tm.getMinutes()));
                     }
 
-                    tempService.addTemplate(template, new Time(timeJSON.get("time").toString()), s.increment * j);
+                    tempService.addTemplate(template, tm, s.increment * j);
+
                     if(s.linksBackward) {
-                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(new Time(timeJSON.get("time").toString()), tempService.getRef());
+                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
                         tempService.setEventAtIndex(0, sns);
                     }
                     
@@ -149,21 +152,25 @@ public class JSONTimetable {
                 } else {
                     String ref = s.ref;
                     ref = ref.substring(0, 2) + String.format("%02d", (Integer.parseInt(ref.substring(2, 4)) + (s.increment * j)));
+
+                    Time tm = new Time(times.get(j).toString());
                     
                     String description = s.description;
-                    description = updateDescription(description, new Time(times.get(j).toString()));
+                    description = updateDescription(description, tm);
 
                     Service tempService = new Service(new Reference(ref), description, data);
                     
-                    Template template = createTemplate(s.events, ref, description, s.linksBackward, s.becomes);
+                    Template template = createTemplate(s.events, ref, description);
+
                     if(s.linksForward) {
                         FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
-                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(new Time(times.get(j).toString()).getMinutes()));
+                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(tm.getMinutes()));
                     }
 
-                    tempService.addTemplate(template, new Time(times.get(j).toString()), s.increment * j);
+                    tempService.addTemplate(template, tm, s.increment * j);
+
                     if(s.linksBackward) {
-                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(new Time(times.get(j).toString()), tempService.getRef());
+                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
                         tempService.setEventAtIndex(0, sns);
                     }
                     
@@ -191,7 +198,7 @@ public class JSONTimetable {
         return this.startTime;
     }
     
-    private Template createTemplate(JSONArray events, String reference, String description, boolean linksBackward, String from) {
+    private Template createTemplate(JSONArray events, String reference, String description) {
         Template template = new Template(description);
         ParseEvent parse = new ParseEvent();
         for(int i = 0; i < events.size(); i++) {

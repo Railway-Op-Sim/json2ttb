@@ -13,12 +13,12 @@ import net.danielgill.ros.timetable.time.Time;
 public class LinkQueue {
     private static Logger logger = LogManager.getLogger(LinkQueue.class);
     private Queue<LinkQueueItem> queue;
-    public String parent_ref;
-    public String child_ref;
+    public String parentRef;
+    public String childRef;
 
-    public LinkQueue(String parent_ref, String child_ref) {
-        this.parent_ref = parent_ref;
-        this.child_ref = child_ref;
+    public LinkQueue(String parentRef, String childRef) {
+        this.parentRef = parentRef;
+        this.childRef = childRef;
         queue = new LinkedList<>();
     }
 
