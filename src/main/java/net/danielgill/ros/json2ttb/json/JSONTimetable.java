@@ -127,19 +127,7 @@ public class JSONTimetable {
                         tempService = new Service(new Reference(ref), description, data);
                     }
 
-                    Template template = createTemplate(s.events, ref, description);
-                    
-                    if(s.linksForward) {
-                        FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
-                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(tm.getMinutes()));
-                    }
-
-                    tempService.addTemplate(template, tm, s.increment * j);
-
-                    if(s.linksBackward) {
-                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
-                        tempService.setEventAtIndex(0, sns);
-                    }
+                    tempService = createService(tempService, s, ref, description, tm, j);
                     
                     if(!checkEarlyService(tempService.getEventFromIndex(0), tempService.getRef())) {
                         timetable.addService(tempService);
@@ -159,20 +147,7 @@ public class JSONTimetable {
                     description = updateDescription(description, tm);
 
                     Service tempService = new Service(new Reference(ref), description, data);
-                    
-                    Template template = createTemplate(s.events, ref, description);
-
-                    if(s.linksForward) {
-                        FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
-                        links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(tm.getMinutes()));
-                    }
-
-                    tempService.addTemplate(template, tm, s.increment * j);
-
-                    if(s.linksBackward) {
-                        SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
-                        tempService.setEventAtIndex(0, sns);
-                    }
+                    tempService = createService(tempService, s, ref, description, tm, j);
                     
                     if(!checkEarlyService(tempService.getEventFromIndex(0), tempService.getRef())) {
                         timetable.addService(tempService);
@@ -196,6 +171,24 @@ public class JSONTimetable {
 
     public Time getStartTime() {
         return this.startTime;
+    }
+
+    private Service createService(Service tempService, JSONService s, String ref, String description, Time tm, int j) {
+        Template template = createTemplate(s.events, ref, description);
+
+        if(s.linksForward) {
+            FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
+            links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(tm.getMinutes()));
+        }
+
+        tempService.addTemplate(template, tm, s.increment * j);
+
+        if(s.linksBackward) {
+            SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
+            tempService.setEventAtIndex(0, sns);
+        }
+        
+        return tempService;
     }
     
     private Template createTemplate(JSONArray events, String reference, String description) {
