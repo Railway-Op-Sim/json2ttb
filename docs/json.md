@@ -331,3 +331,62 @@ There are also a large number of pre-defined templates for a large number of UK 
 For example, a 2-car Class 150/1 is `C150_1_2`.
 
 A list of pre-defined templates can be found in [Appendix A](appendixA.md).
+
+## Linking Services (EXPERIMENTAL)
+
+**Linking services is an experimental feature that is yet to be tested thoroughly, it may not work properly! Please report any issues you experience with it.**
+
+Services that terminate and then depart from a station as a different service can be linked. Linking these services means that json2ttb will look for the next available departure for a service after it arrives at a station and updates the change of service times respectively. To link services, several things must be true:
+
+* The service must terminate at a station, change using `Fns` forming a new service using `Sns`.
+* The arrival service must be listed before the departing service in the json file.
+* The `Fns` and `Sns` should be at `00:00` time. (This may not be required, more testing to come.)
+* There must be exactly the same number of arrival services to departing services.
+
+To add linking, you include a `becomes` key in the arrival service, and a `from` key in the departing service. For example, two services that link are:
+
+```json
+{
+    "startTime": "06:00",
+    "services": [
+        {
+            "ref":"1A01",
+            "description":"Terminating",
+            "startSpeed":80,
+            "maxSpeed": 121,
+            "mass": 200,
+            "maxBrake": 149,
+            "power": 1500,
+            "increment": 2,
+            "becomes":"1A02",
+            "events": [
+                "23:40;Snt;2-3 2-2",
+                "23:59;A",
+                "00:00;cdt",
+                "00:00;Fns;1A02"
+            ],
+            "times": [
+                "07:13","07:30","07:37","07:45"
+            ]
+        },
+        {
+            "ref":"1A02",
+            "description":"Departing",
+            "increment":2,
+            "from":"1A01",
+            "events": [
+                "00:00;Sns;1A01",
+                "00:00;A",
+                "00:19;Fer;2-3"
+            ],
+            "times": [
+                "07:15","07:35","07:37","07:48"
+            ]
+        }
+    ]
+}
+```
+
+When the parser reaches a `becomes` service it stores all the arrivals to the station, then when it reads the `from` service, it picks the service that could sensibly form it.
+
+In the above example, `1A02` will be formed from `1A01`. The `Sns;1A01` line will be changed to the same time as the `Fns;1A02`, but the **departure time will not be changed**. So, `1A02` will `Sns` at `07:13`, but not depart until `07:15`. Likewise, `1A04` (the next repeat) will `Sns` at `07:30`, but not depart until `07:35`.
