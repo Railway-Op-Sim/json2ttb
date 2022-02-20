@@ -196,14 +196,18 @@ public class JSONTimetable {
         ParseEvent parse = new ParseEvent();
         for(int i = 0; i < events.size(); i++) {
             Object evt = events.get(i);
-            if(evt instanceof JSONObject) {
-                Set<String> set = castStringSet(((JSONObject) evt).keySet());
+            if(evt instanceof JSONArray) {
+                JSONArray evts = (JSONArray) evt;
                 boolean matches = false;
-                for(String regex : set) {
-                    if(Pattern.matches(regex, reference)) {
-                        template.addEvent(parse.getEventFromString(((JSONObject) evt).get(regex).toString()));
-                        matches = true;
-                        break;
+                for(int j = 0; j < evts.size(); j++) {
+                    JSONObject obj = (JSONObject) evts.get(j);
+                    Set<String> set = castStringSet((obj).keySet());
+                    for(String regex : set) {
+                        if(Pattern.matches(regex, reference)) {
+                            template.addEvent(parse.getEventFromString(((JSONObject) obj).get(regex).toString()));
+                            matches = true;
+                            break;
+                        }
                     }
                 }
                 if(!matches) {
