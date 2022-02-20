@@ -199,6 +199,7 @@ public class JSONTimetable {
             if(evt instanceof JSONArray) {
                 JSONArray evts = (JSONArray) evt;
                 boolean matches = false;
+                eventcheck:
                 for(int j = 0; j < evts.size(); j++) {
                     JSONObject obj = (JSONObject) evts.get(j);
                     Set<String> set = castStringSet((obj).keySet());
@@ -206,7 +207,7 @@ public class JSONTimetable {
                         if(Pattern.matches(regex, reference)) {
                             template.addEvent(parse.getEventFromString(((JSONObject) obj).get(regex).toString()));
                             matches = true;
-                            break;
+                            break eventcheck;
                         }
                     }
                 }
