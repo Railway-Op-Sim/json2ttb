@@ -25,12 +25,18 @@ public class JSONService {
 
 	public final int increment;
 
+    @SuppressWarnings("unchecked")
 	public JSONService(JSONObject service) {
 		events = (JSONArray) service.get("events");
 		ref = service.get("ref").toString();
 		description = service.get("description").toString();
 
-		times = (JSONArray) service.get("times");
+        if(service.containsKey("times")) {
+            times = (JSONArray) service.get("times");
+        } else {
+            times = new JSONArray();
+            times.add("00:00");
+        }
                 
         if(service.containsKey("startSpeed")) {
             startSpeed = Integer.parseInt(service.get("startSpeed").toString());
