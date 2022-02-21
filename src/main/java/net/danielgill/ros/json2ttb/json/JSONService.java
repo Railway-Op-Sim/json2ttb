@@ -25,6 +25,7 @@ public class JSONService {
 
 	public final int increment;
 
+    @SuppressWarnings("unchecked")
 	public JSONService(JSONObject service) {
 		events = (JSONArray) service.get("events");
 		ref = service.get("ref").toString();
