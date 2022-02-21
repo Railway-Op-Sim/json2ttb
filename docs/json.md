@@ -193,7 +193,7 @@ You could, for example, extract departure times from a single principle station 
 
 A new feature for version 1.2.0 allows you to change (add/remove/edit) events for a single instance, or a collection of instances for a single service. This could be useful, for example, if one instance of a service stops at an additional station and you wanted to include it without having to write a whole new service.
 
-To achieve this, we replace a event in the list with an object (curly brackets), which can have one or more keys containing the ***service ref*** or any ***regex*** to represent any number of services. For example:
+To achieve this, we replace a event in the list with an array (square brackets), which contains one or more objects, each of which has one key containing the ***service ref*** or any ***regex*** to represent any number of services. For example:
 
 ```json
     ...
@@ -201,7 +201,7 @@ To achieve this, we replace a event in the list with an object (curly brackets),
       "23:58;Snt;6-2 5-2",
       "00:00;00:00;A",
       "00:03;00:03;B",
-      {"1A01":"00:05;00:05;C"},
+      [{"1A01":"00:05;00:05;C"}],
       "00:07;Fer;15-2"
     ],
     ...
@@ -214,22 +214,24 @@ Or another example, where only instances 1A01 and 1A03 stop at C, and only 1A02 
     "events": [
       "23:58;Snt;6-2 5-2",
       "00:00;00:00;A",
-      {"1A02":"00:03;00:03;B"},
-      {"1A01|1A03":"00:05;00:05;C"},
+      [{"1A02":"00:03;00:03;B"}],
+      [{"1A01|1A03":"00:05;00:05;C"}],
       "00:07;Fer;15-2"
     ],
     ...
 ```
 
-You can also include several intances in a single event object as below:
+**In the above two cases, you may get warnings as some instances will not have events (e.g. 1A02 in the first example), however this can safley be ignored.**
+
+You can also include several intances in a single event array as below:
 
 ```json
       ...
-      {"1A01":"00:05;00:05;C","....":"00:06;00:06;C"},
+      [{"1A01":"00:05;00:05;C"},{"....":"00:06;00:06;C"}],
       ...
 ```
 
-In this case, the first valid key for an instance will be chosen, for example, for `1A01`, it will pick the first option, however, for all others it will pick the second option.
+In this case, the first valid object for an instance will be chosen, for example, for `1A01`, it will pick the first option, however, for all others it will pick the second option.
 
 ## Change Information per Instance <a name="times"></a>
 
