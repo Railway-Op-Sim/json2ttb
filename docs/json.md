@@ -189,6 +189,10 @@ This example has the same time differences as the previous examples, however, we
 
 You could, for example, extract departure times from a single principle station from an external timetable, and import these into your json file. This is especially helpful if the services do not have a regular departure time pattern.
 
+### Excluding the `times` Array
+
+If you were to exclude the `times` array completely, then the program will assume that the service has a single instance at `00:00`. For example, if a service runs for a single time and the service is written using Method A above, then you can exclude the `times` array.
+
 ### Advanced Event Changes <a name="event-changes"></a>
 
 A new feature for version 1.2.0 allows you to change (add/remove/edit) events for a single instance, or a collection of instances for a single service. This could be useful, for example, if one instance of a service stops at an additional station and you wanted to include it without having to write a whole new service.
