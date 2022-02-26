@@ -237,6 +237,13 @@ public class JSONTimetable {
             descTime = descTime.getNewAddMinutes(tm.getMinutes());
             old = old.replace(timeUpd, descTime.toString());
         }
+        while(old.contains("%r")) {
+            int index = old.indexOf("%r");
+            String timeUpd = old.substring(index, index + 8);
+            Time descTime = new Time(old.substring(index + 2, index + 7));
+            descTime = descTime.getNewAddMinutes(tm.getMinutes());
+            old = old.replace(timeUpd, descTime.toString().replace(":", ""));
+        }
         return old;
     }
 
