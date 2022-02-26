@@ -106,6 +106,12 @@ If the `times` for this service were `12:03`, `12:43`, `13:23` for example, then
 
 `11:33 London Euston to Manchester Piccadilly`, `12:13 London Euston to Manchester Piccadilly` and `12:53 London Euston to Manchester Piccadilly`
 
+In version 1.3.3, a second option `%r` was added, which adds the time without the colon. For example, `%r23:30% London Euston to Manchester Piccadilly` in the above example will produce:
+
+`1133 London Euston to Manchester Piccadilly`, `1213 London Euston to Manchester Piccadilly` and `1253 London Euston to Manchester Piccadilly`
+
+**Note the time in a `%r` still needs to include the colon.**
+
 ## Adding Events and Times <a name="events"></a>
 
 Once we have a service, we can add any number of events within the `events` array. The services that we create use the exact same syntax as those in ROS timetables. They must be as strings separated by commas.
