@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.danielgill.ros.json2ttb.event.StaticEvent;
 import net.danielgill.ros.json2ttb.link.LinkQueue;
 import net.danielgill.ros.timetable.*;
 import net.danielgill.ros.timetable.data.Data;
@@ -174,7 +175,9 @@ public class JSONTimetable {
     }
 
     private Service createService(Service tempService, JSONService s, String ref, String description, Time tm, int j) {
-        Template template = createTemplate(s.events, ref, description);
+        ArrayList<StaticEvent> staticEvents = new ArrayList<>();
+
+        Template template = createTemplate(s.events, ref, description, staticEvents);
 
         if(s.linksForward) {
             FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
@@ -182,6 +185,10 @@ public class JSONTimetable {
         }
 
         tempService.addTemplate(template, tm, s.increment * j);
+
+        for(StaticEvent evt : staticEvents) {
+            tempService.setEventAtIndex(evt.index, evt.e);
+        }
 
         if(s.linksBackward) {
             SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
@@ -191,9 +198,8 @@ public class JSONTimetable {
         return tempService;
     }
     
-    private Template createTemplate(JSONArray events, String reference, String description) {
+    private Template createTemplate(JSONArray events, String reference, String description, ArrayList<StaticEvent> staticEvents) {
         Template template = new Template(description);
-        ParseEvent parse = new ParseEvent();
         for(int i = 0; i < events.size(); i++) {
             Object evt = events.get(i);
             if(evt instanceof JSONArray) {
@@ -205,7 +211,7 @@ public class JSONTimetable {
                     Set<String> set = castStringSet((obj).keySet());
                     for(String regex : set) {
                         if(Pattern.matches(regex, reference)) {
-                            template.addEvent(parse.getEventFromString(((JSONObject) obj).get(regex).toString()));
+                            template.addEvent(createEvent(((JSONObject) obj).get(regex).toString(), staticEvents, i));
                             matches = true;
                             break eventcheck;
                         }
@@ -215,10 +221,19 @@ public class JSONTimetable {
                     logger.info("Service with ref {} does not match any regex for an event.", reference);
                 }
             } else {
-                template.addEvent(parse.getEventFromString(events.get(i).toString()));
+                template.addEvent(createEvent(events.get(i).toString(), staticEvents, i));
             }
         }
         return template;
+    }
+
+    private Event createEvent(String evt, ArrayList<StaticEvent> staticEvents, int index) {
+        ParseEvent parse = new ParseEvent();
+        if(evt.startsWith("`")) {
+            evt = evt.substring(1);
+            staticEvents.add(new StaticEvent(index, parse.getEventFromString(evt)));
+        }
+        return parse.getEventFromString(evt);
     }
 
     private static Set<String> castStringSet(Collection<?> c) {
