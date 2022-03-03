@@ -1,0 +1,789 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>JSON Structure - json2ttb User Manual</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#json-structure-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="json2ttb User Manual" class="md-header__button md-logo" aria-label="json2ttb User Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            json2ttb User Manual
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              JSON Structure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="json2ttb User Manual" class="md-nav__button md-logo" aria-label="json2ttb User Manual" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    json2ttb User Manual
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Using the Program
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          JSON Structure
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        JSON Structure
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-terminology" class="md-nav__link">
+    Key Terminology
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-json-files" class="md-nav__link">
+    Example JSON Files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-the-file" class="md-nav__link">
+    Starting the File
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-information" class="md-nav__link">
+    Service Information 
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Information ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description-time-updates" class="md-nav__link">
+    Description Time Updates 
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-events-and-times" class="md-nav__link">
+    Adding Events and Times 
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding Events and Times ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-a-events-dictate-the-actual-times" class="md-nav__link">
+    Method A: events dictate the actual times.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-b-times-dictate-the-actual-times" class="md-nav__link">
+    Method B: times dictate the actual times.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#excluding-the-times-array" class="md-nav__link">
+    Excluding the times Array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-event-changes" class="md-nav__link">
+    Advanced Event Changes 
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-events" class="md-nav__link">
+    Static Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#change-information-per-instance" class="md-nav__link">
+    Change Information per Instance 
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-templates" class="md-nav__link">
+    Data Templates 
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linking-services-experimental" class="md-nav__link">
+    Linking Services (EXPERIMENTAL)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help/" class="md-nav__link">
+        Get Help
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendixA/" class="md-nav__link">
+        Appendix A
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="json-structure-guide">JSON Structure Guide</h1>
+<p>Read this section carefully as the program will not work if the format is incorrect in your .json file.</p>
+<h2 id="key-terminology">Key Terminology</h2>
+<ul>
+<li>Service: The list of instructions and data that a train will be associated with.</li>
+<li>Instance [of a service]: The actual train which will follow a service (e.g. each repeat of a service.)</li>
+<li>Timetable: The final product, containing all services which can be used with ROS.</li>
+</ul>
+<h2 id="example-json-files">Example JSON Files</h2>
+<p>Below are a few example files which match the json format, feel free to use these to get a hang of the structure:</p>
+<ul>
+<li><a href="https://github.com/Railway-Op-Sim/ros-json2ttb/blob/master/src/test/java/net/danielgill/ros/json2ttb/test/testJSON.json">json2ttb Testing Example</a></li>
+<li><a href="https://github.com/Railway-Op-Sim/GB-SouthLondonAndThameslink/blob/master/Program_Timetables/SouthLondonAndThameslink.json">South London and Thameslink</a></li>
+<li><a href="https://github.com/Railway-Op-Sim/GB-LlandudnoJct/blob/master/Program_Timetables/LlandudnoJct_October2021.json">Llandudno Junction</a></li>
+<li><a href="https://github.com/Railway-Op-Sim/GB-LeedsAndBradford/blob/master/Program_Timetables/leedsbradford.json">Leeds and Bradford</a></li>
+<li><a href="https://github.com/Railway-Op-Sim/GB-SuttonEpsomWimbledon/blob/master/Program_Timetables/SEW-LondonVictoriaClosure.json">Sutton, Epsom and Wimbledon</a></li>
+</ul>
+<h2 id="starting-the-file">Starting the File</h2>
+<p>To start, the file must contain curly brackets (an object) at the top and bottom.</p>
+<pre><code class="language-json">{
+
+}
+</code></pre>
+<p>To be contained in here will be the start time of the timetable, and an array which will contain all of the services.</p>
+<pre><code class="language-json">{
+  &quot;startTime&quot;:&quot;07:00&quot;,
+  &quot;services&quot;: [
+
+  ]
+}
+</code></pre>
+<div style="page-break-after: always;"></div>
+
+<h2 id="service-information">Service Information <a name="service"></a></h2>
+<p>To create a new service, we start with an object inside the <code>services</code> array. This object takes the following information:</p>
+<pre><code class="language-json">{
+  &quot;startTime&quot;:&quot;07:00&quot;,
+  &quot;services&quot;: [
+    {
+      &quot;ref&quot;: &quot;1A00&quot;,
+      &quot;description&quot;: &quot;Z to C&quot;,
+      &quot;startSpeed&quot;: 20,
+      &quot;maxSpeed&quot;: 121,
+      &quot;mass&quot;: 200,
+      &quot;maxBrake&quot;: 149,
+      &quot;power&quot;: 1500,
+      &quot;increment&quot;: 1
+    }
+  ]
+}
+</code></pre>
+<p>We can replace <code>maxSpeed</code>, <code>mass</code>, <code>maxBrake</code> and <code>power</code> with a <code>dataTemplate</code>. Find more information <a href="#datatemp">here</a>.</p>
+<p>The <code>maxSpeed</code>, <code>mass</code>, <code>maxBrake</code>, <code>power</code> (or <code>dataTemplate</code>), and <code>startSpeed</code> does not need to be included for services that form from another service. (i.e their first event is a Sns.) If this data is excluded from a service that requires it, it will throw an error message when you run json2ttb, and the resulting file will not contain the offending service, or the <code>.ttb</code> may not work at all.</p>
+<p>Within the service object, we also need to include <code>events</code> and <code>times</code> arrays:</p>
+<pre><code class="language-json">{
+  &quot;startTime&quot;:&quot;07:00&quot;,
+  &quot;services&quot;: [
+    {
+      &quot;ref&quot;: &quot;1A00&quot;,
+      &quot;description&quot;: &quot;A to B&quot;,
+      &quot;startSpeed&quot;: 20,
+      &quot;maxSpeed&quot;: 121,
+      &quot;mass&quot;: 200,
+      &quot;maxBrake&quot;: 149,
+      &quot;power&quot;: 1500,
+      &quot;increment&quot;: 1,
+      &quot;events&quot;: [
+
+      ],
+      &quot;times&quot;: [
+
+      ]
+    }
+  ]
+}
+</code></pre>
+<h3 id="description-time-updates">Description Time Updates <a name="desc"></a></h3>
+<p>A special syntax within the description can be used to change the description to reflect the time for each service. The description can be changed both in the service description key and, as you will see below, per-instance descriptions.</p>
+<p>An example of a description using the syntax is below:</p>
+<p><code>%t23:30% London Euston to Manchester Piccadilly</code></p>
+<p>The <code>t</code> refers to time, and the area replaced will be between the <code>%</code>. This does mean that the <code>%</code> <strong>cannot be used elsewhere</strong> in any service description.</p>
+<p>If the <code>times</code> for this service were <code>12:03</code>, <code>12:43</code>, <code>13:23</code> for example, then the descriptions would be:</p>
+<p><code>11:33 London Euston to Manchester Piccadilly</code>, <code>12:13 London Euston to Manchester Piccadilly</code> and <code>12:53 London Euston to Manchester Piccadilly</code></p>
+<p>In version 1.3.3, a second option <code>%r</code> was added, which adds the time without the colon. For example, <code>%r23:30% London Euston to Manchester Piccadilly</code> in the above example will produce:</p>
+<p><code>1133 London Euston to Manchester Piccadilly</code>, <code>1213 London Euston to Manchester Piccadilly</code> and <code>1253 London Euston to Manchester Piccadilly</code></p>
+<p><strong>Note the time in a <code>%r</code> still needs to include the colon.</strong></p>
+<h2 id="adding-events-and-times">Adding Events and Times <a name="events"></a></h2>
+<p>Once we have a service, we can add any number of events within the <code>events</code> array. The services that we create use the exact same syntax as those in ROS timetables. They must be as strings separated by commas.</p>
+<p><strong>There are two ways to achieve timings for instances</strong>, both will work and can be used interchangeably within a single timetable.</p>
+<h3 id="method-a-events-dictate-the-actual-times">Method A: <code>events</code> dictate the <em>actual</em> times.</h3>
+<p>This is probably considered the simpler method. Here we use the actual times for the events.</p>
+<pre><code class="language-json">      ...
+      &quot;events&quot;: [
+        &quot;07:00;Snt;6-2 5-2&quot;,
+        &quot;07:02;07:02;A&quot;,
+        &quot;07:05;07:05;B&quot;,
+        &quot;07:07;Fer;15-2&quot;
+      ],
+      ...
+</code></pre>
+<p>The <code>times</code> will contain the time in relation to <code>00:00</code> that these services will occur. In the below example, we want our service to occur every 30 mins for 4 instances.</p>
+<pre><code class="language-json">      ...
+      &quot;times&quot;: [
+        &quot;00:00&quot;, &quot;00:30&quot;, &quot;01:00&quot;, &quot;01:30&quot;
+      ]
+      ...
+</code></pre>
+<p>This will mean that, in our final timetable we will have 4 instances:
+(Remember that <code>"ref":"1A00"</code> and <code>"increment":"1"</code>)</p>
+<ul>
+<li>1A00, which enters at 07:00</li>
+<li>1A01, which enters at 07:30</li>
+<li>1A02, which enters at 08:00</li>
+<li>1A03, which enters at 08:30</li>
+</ul>
+<p><strong>We are not required to pick times every x minutes.</strong> We can mix up the times and have some very odd service patterns.</p>
+<pre><code class="language-json">      ...
+      &quot;times&quot;: [
+        &quot;00:00&quot;, &quot;00:24&quot;, &quot;00:38&quot;, &quot;01:00&quot;
+      ]
+      ...
+</code></pre>
+<p>In this example, we will have 4 instances:</p>
+<ul>
+<li>1A00, which enters at 07:00</li>
+<li>1A01, which enters at 07:24</li>
+<li>1A02, which enters at 07:38</li>
+<li>1A03, which enters at 08:00</li>
+</ul>
+<h3 id="method-b-times-dictate-the-actual-times">Method B: <code>times</code> dictate the <em>actual</em> times.</h3>
+<p>This method may be more useful if you're copying directly from an external timetable. Here we can create events which all have times before and after some <em>pivot</em> time, which could be a significant departure time. You could achieve this like so:</p>
+<pre><code class="language-json">      ...
+      &quot;events&quot;: [
+        &quot;23:58;Snt;6-2 5-2&quot;,
+        &quot;00:00;00:00;A&quot;,
+        &quot;00:03;00:03;B&quot;,
+        &quot;00:05;Fer;15-2&quot;
+      ],
+      ...
+</code></pre>
+<p>This example has the same time differences as the previous examples, however, we have now chosen the <em>pivot</em> to be the departure time from station A. Now in <code>times</code>, we can specify the departure times from station A, and all other times will be changed accordingly.</p>
+<pre><code class="language-json">      ...
+      &quot;times&quot;: [
+        &quot;07:02&quot;, &quot;07:26&quot;, &quot;07:40&quot;, &quot;08:02&quot;
+      ]
+      ...
+</code></pre>
+<p>You could, for example, extract departure times from a single principle station from an external timetable, and import these into your json file. This is especially helpful if the services do not have a regular departure time pattern.</p>
+<h3 id="excluding-the-times-array">Excluding the <code>times</code> Array</h3>
+<p>If you were to exclude the <code>times</code> array completely, then the program will assume that the service has a single instance at <code>00:00</code>. For example, if a service runs for a single time and the service is written using Method A above, then you can exclude the <code>times</code> array.</p>
+<h3 id="advanced-event-changes">Advanced Event Changes <a name="event-changes"></a></h3>
+<p>A new feature for version 1.2.0 allows you to change (add/remove/edit) events for a single instance, or a collection of instances for a single service. This could be useful, for example, if one instance of a service stops at an additional station and you wanted to include it without having to write a whole new service.</p>
+<p>To achieve this, we replace a event in the list with an array (square brackets), which contains one or more objects, each of which has one key containing the <strong><em>service ref</em></strong> or any <strong><em>regex</em></strong> to represent any number of services. For example:</p>
+<pre><code class="language-json">    ...
+    &quot;events&quot;: [
+      &quot;23:58;Snt;6-2 5-2&quot;,
+      &quot;00:00;00:00;A&quot;,
+      &quot;00:03;00:03;B&quot;,
+      [{&quot;1A01&quot;:&quot;00:05;00:05;C&quot;}],
+      &quot;00:07;Fer;15-2&quot;
+    ],
+    ...
+</code></pre>
+<p>Or another example, where only instances 1A01 and 1A03 stop at C, and only 1A02 stops at B using regex:</p>
+<pre><code class="language-json">    ...
+    &quot;events&quot;: [
+      &quot;23:58;Snt;6-2 5-2&quot;,
+      &quot;00:00;00:00;A&quot;,
+      [{&quot;1A02&quot;:&quot;00:03;00:03;B&quot;}],
+      [{&quot;1A01|1A03&quot;:&quot;00:05;00:05;C&quot;}],
+      &quot;00:07;Fer;15-2&quot;
+    ],
+    ...
+</code></pre>
+<p><strong>In the above two cases, you may get warnings as some instances will not have events (e.g. 1A02 in the first example), however this can safley be ignored.</strong></p>
+<p>You can also include several intances in a single event array as below:</p>
+<pre><code class="language-json">      ...
+      [{&quot;1A01&quot;:&quot;00:05;00:05;C&quot;},{&quot;....&quot;:&quot;00:06;00:06;C&quot;}],
+      ...
+</code></pre>
+<p>In this case, the first valid object for an instance will be chosen, for example, for <code>1A01</code>, it will pick the first option, however, for all others it will pick the second option.</p>
+<h3 id="static-events">Static Events</h3>
+<p>Static events are events that do not increment with the value inside the <code>times</code> array, and therefore will be static within each instance of the service.</p>
+<p>To create a static event, you need to include a backtick (also known as a backquote) directly in front of the string event like so:</p>
+<pre><code class="language-json">      [{&quot;1A01&quot;:&quot;`05:00;Snt;2-1 2-2&quot;},{&quot;1A02&quot;:&quot;`05:00;Snt;3-1 3-2&quot;}],
+      &quot;00:00;Depot&quot;,
+      ...
+</code></pre>
+<p>In the above example, you could have a depot where trains <code>Snt</code> at the start of the timetable (<code>05:00</code> above), and then they depart based on the values in the <code>times</code> array.</p>
+<h2 id="change-information-per-instance">Change Information per Instance <a name="times"></a></h2>
+<p>For example, we may have a one-off service that extends beyond the usual destination station. For this, we can change the <code>description</code> for an individual instance in the <code>times</code> array.</p>
+<p>To do this, we change one element of the array to be an object, which has a <code>time</code> key which contains the time as before, as well as a <code>description</code> key with the updated description.</p>
+<pre><code class="language-json">      ...
+      &quot;times&quot;: [
+        &quot;07:02&quot;, {&quot;time&quot;:&quot;07:26&quot;, &quot;description&quot;:&quot;Z to D&quot;}, &quot;07:40&quot;, &quot;08:02&quot;
+      ]
+      ...
+</code></pre>
+<p>We can also do a similar thing with the service references. Please note, however, the <code>increment</code> will still apply the changed ref, so the next instance will have an increment twice over.</p>
+<pre><code class="language-json">      ...
+      &quot;times&quot;: [
+        &quot;07:02&quot;, {&quot;time&quot;:&quot;07:26&quot;, &quot;ref&quot;:&quot;2D01&quot;}, &quot;07:40&quot;, &quot;08:02&quot;
+      ]
+      ...
+</code></pre>
+<p>This extract from the <a href="https://github.com/Railway-Op-Sim/GB-SouthLondonAndThameslink/blob/master/Program_Timetables/SouthLondonAndThameslink.json">South London and Thameslink timetable</a> shows how these can be used together to create instances with data from <a href="https://www.realtimetrains.co.uk/">RealTime Trains</a>.</p>
+<pre><code class="language-json">    ...
+    &quot;times&quot;: [
+    {&quot;time&quot;:&quot;06:11&quot;,&quot;ref&quot;:&quot;1P02&quot;,&quot;description&quot;:&quot;Ramsgate to London Victoria&quot;},
+    {&quot;time&quot;:&quot;06:26&quot;,&quot;ref&quot;:&quot;2A06&quot;,&quot;description&quot;:&quot;Swanley to London Victoria&quot;},
+    {&quot;time&quot;:&quot;06:41&quot;,&quot;ref&quot;:&quot;1P06&quot;,&quot;description&quot;:&quot;Dover Priory to London Victoria&quot;},
+    {&quot;time&quot;:&quot;06:43&quot;,&quot;ref&quot;:&quot;2A08&quot;,&quot;description&quot;:&quot;Ashford International to London Victoria&quot;},
+    ...
+    ]
+    ...
+</code></pre>
+<h2 id="data-templates">Data Templates <a name="datatemp"></a></h2>
+<p>We can generalise <code>maxSpeed</code>, <code>mass</code>, <code>maxBrake</code> and <code>power</code> for each service using a data template, which hold all of this information. This is done by using a <code>dataTemplate</code> instead of the above keys. This will contain a keyword that refers to a given template.</p>
+<pre><code class="language-json">{
+  &quot;startTime&quot;:&quot;07:00&quot;,
+  &quot;services&quot;: [
+    {
+      &quot;ref&quot;: &quot;1A00&quot;,
+      &quot;description&quot;: &quot;A to B&quot;,
+      &quot;startSpeed&quot;: 20,
+      &quot;dataTemplate&quot;: &quot;TestData&quot;,
+      &quot;increment&quot;: 1,
+      &quot;events&quot;: [
+        ...
+      ],
+      &quot;times&quot;: [
+        ...
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>Data templates can also be used per-instance, so that:</p>
+<pre><code class="language-json">      ...
+      &quot;times&quot;: [
+        &quot;12:00&quot;,{&quot;time&quot;:&quot;12:30&quot;,&quot;dataTemplate&quot;:&quot;TestData&quot;},&quot;13:00&quot;
+      ]
+      ...
+</code></pre>
+<p>We can create a <strong>custom template</strong> by adding a new array between <code>startTime</code> and <code>services</code>, which contains an object with keys for <code>keyword</code>, <code>maxSpeed</code>, <code>mass</code>, <code>maxBrake</code> and <code>power</code>.</p>
+<pre><code class="language-json">{
+    &quot;startTime&quot;: &quot;07:00&quot;,
+    &quot;dataTemplates&quot;: [
+        {
+            &quot;keyword&quot;:&quot;TestData&quot;,
+            &quot;maxSpeed&quot;: 150,
+            &quot;mass&quot;: 100,
+            &quot;maxBrake&quot;: 20,
+            &quot;power&quot;: 25
+        }
+    ],
+    &quot;services&quot;: [
+      ...
+    ]
+}
+</code></pre>
+<p>There are also a large number of pre-defined templates for a large number of UK trains from Mark's great stock data spreadsheet. When using them as a data template, the <code>keyword</code> is generally of the form:</p>
+<p><code>C&lt;class&gt;_&lt;carriages/cars&gt;</code> or <code>C&lt;class&gt;_&lt;subclass&gt;_&lt;carriages/cars&gt;</code></p>
+<p>For example, a 2-car Class 150/1 is <code>C150_1_2</code>.</p>
+<p>A list of pre-defined templates can be found in <a href="../appendixA/">Appendix A</a>.</p>
+<h2 id="linking-services-experimental">Linking Services (EXPERIMENTAL)</h2>
+<p><strong>Linking services is an experimental feature that is yet to be tested thoroughly, it may not work properly! Please report any issues you experience with it.</strong></p>
+<p>Services that terminate and then depart from a station as a different service can be linked. Linking these services means that json2ttb will look for the next available departure for a service after it arrives at a station and updates the change of service times respectively. To link services, several things must be true:</p>
+<ul>
+<li>The service must terminate at a station, change using <code>Fns</code> forming a new service using <code>Sns</code>.</li>
+<li>The arrival service must be listed before the departing service in the json file.</li>
+<li>The <code>Fns</code> and <code>Sns</code> should be at <code>00:00</code> time. (This may not be required, more testing to come.)</li>
+<li>There must be exactly the same number of arrival services to departing services.</li>
+</ul>
+<p>To add linking, you include a <code>becomes</code> key in the arrival service, and a <code>from</code> key in the departing service. For example, two services that link are:</p>
+<pre><code class="language-json">{
+    &quot;startTime&quot;: &quot;06:00&quot;,
+    &quot;services&quot;: [
+        {
+            &quot;ref&quot;:&quot;1A01&quot;,
+            &quot;description&quot;:&quot;Terminating&quot;,
+            &quot;startSpeed&quot;:80,
+            &quot;maxSpeed&quot;: 121,
+            &quot;mass&quot;: 200,
+            &quot;maxBrake&quot;: 149,
+            &quot;power&quot;: 1500,
+            &quot;increment&quot;: 2,
+            &quot;becomes&quot;:&quot;1A02&quot;,
+            &quot;events&quot;: [
+                &quot;23:40;Snt;2-3 2-2&quot;,
+                &quot;23:59;A&quot;,
+                &quot;00:00;cdt&quot;,
+                &quot;00:00;Fns;1A02&quot;
+            ],
+            &quot;times&quot;: [
+                &quot;07:13&quot;,&quot;07:30&quot;,&quot;07:37&quot;,&quot;07:45&quot;
+            ]
+        },
+        {
+            &quot;ref&quot;:&quot;1A02&quot;,
+            &quot;description&quot;:&quot;Departing&quot;,
+            &quot;increment&quot;:2,
+            &quot;from&quot;:&quot;1A01&quot;,
+            &quot;events&quot;: [
+                &quot;00:00;Sns;1A01&quot;,
+                &quot;00:00;A&quot;,
+                &quot;00:19;Fer;2-3&quot;
+            ],
+            &quot;times&quot;: [
+                &quot;07:15&quot;,&quot;07:35&quot;,&quot;07:37&quot;,&quot;07:48&quot;
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>When the parser reaches a <code>becomes</code> service it stores all the arrivals to the station, then when it reads the <code>from</code> service, it picks the service that could sensibly form it.</p>
+<p>In the above example, <code>1A02</code> will be formed from <code>1A01</code>. The <code>Sns;1A01</code> line will be changed to the same time as the <code>Fns;1A02</code>, but the <strong>departure time will not be changed</strong>. So, <code>1A02</code> will <code>Sns</code> at <code>07:13</code>, but not depart until <code>07:15</code>. Likewise, <code>1A04</code> (the next repeat) will <code>Sns</code> at <code>07:30</code>, but not depart until <code>07:35</code>.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Using the Program" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Using the Program
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../help/" class="md-footer__link md-footer__link--next" aria-label="Next: Get Help" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Get Help
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>
