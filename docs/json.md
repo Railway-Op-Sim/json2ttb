@@ -243,6 +243,20 @@ You can also include several intances in a single event array as below:
 
 In this case, the first valid object for an instance will be chosen, for example, for `1A01`, it will pick the first option, however, for all others it will pick the second option.
 
+### Static Events
+
+Static events are events that do not increment with the value inside the `times` array, and therefore will be static within each instance of the service.
+
+To create a static event, you need to include a backtick (also known as a backquote) directly in front of the string event like so:
+
+```json
+      [{"1A01":"`05:00;Snt;2-1 2-2"},{"1A02":"`05:00;Snt;3-1 3-2"}],
+      "00:00;Depot",
+      ...
+```
+
+In the above example, you could have a depot where trains `Snt` at the start of the timetable (`05:00` above), and then they depart based on the values in the `times` array.
+
 ## Change Information per Instance <a name="times"></a>
 
 For example, we may have a one-off service that extends beyond the usual destination station. For this, we can change the `description` for an individual instance in the `times` array.
