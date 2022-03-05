@@ -164,7 +164,7 @@ public class JSONTimetable {
         try {
             return timetable.getTextTimetable();
         } catch (ServiceInvalidException e) {
-            logger.error(String.format("Unexpected error in timetable service %s", e.getRef()));
+            logger.error(String.format("Unexpected error in timetable ({}), message {}", e.getRef(), e.getMessage()));
             System.exit(0);
             return null;
         }
