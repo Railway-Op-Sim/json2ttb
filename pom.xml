@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.danielgill.ros</groupId>
     <artifactId>json2ttb</artifactId>
-    <version>1.3.4</version>
+    <version>1.3.5</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>net.danielgill.ros</groupId>
             <artifactId>timetable-lib</artifactId>
-            <version>1.1.4</version>
+            <version>1.1.5</version>
         </dependency>
         <dependency>
             <groupId>commons-cli</groupId>
