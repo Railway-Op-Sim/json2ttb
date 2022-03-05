@@ -177,7 +177,7 @@ public class JSONTimetable {
     private Service createService(Service tempService, JSONService s, String ref, String description, Time tm, int j) {
         ArrayList<StaticEvent> staticEvents = new ArrayList<>();
 
-        Template template = createTemplate(s.events, ref, description, staticEvents);
+        Template template = createTemplate(s.events, ref, description, staticEvents, s.suppressWarnings);
 
         if(s.linksForward) {
             FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
@@ -198,7 +198,7 @@ public class JSONTimetable {
         return tempService;
     }
     
-    private Template createTemplate(JSONArray events, String reference, String description, ArrayList<StaticEvent> staticEvents) {
+    private Template createTemplate(JSONArray events, String reference, String description, ArrayList<StaticEvent> staticEvents, boolean suppressWarnings) {
         Template template = new Template(description);
         for(int i = 0; i < events.size(); i++) {
             Object evt = events.get(i);
@@ -217,7 +217,7 @@ public class JSONTimetable {
                         }
                     }
                 }
-                if(!matches) {
+                if(!matches && !suppressWarnings) {
                     logger.info("Service with ref {} does not match any regex for an event.", reference);
                 }
             } else {
