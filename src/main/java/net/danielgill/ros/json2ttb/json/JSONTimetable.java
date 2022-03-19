@@ -129,7 +129,7 @@ public class JSONTimetable {
 
                     description = updateDescription(description, tm);
 
-                    logger.debug("  Found object instance with ref {} at time {} ({})", ref, tm.toString(), description);
+                    logger.debug("  Found object instance with ref {} at time {} ({})", ref, tm, description);
                     
                     Service tempService;
                     
@@ -159,7 +159,7 @@ public class JSONTimetable {
                     String description = s.description;
                     description = updateDescription(description, tm);
 
-                    logger.debug("  Found instance with ref {} at time {} ({})", ref, tm.toString(), description);
+                    logger.debug("  Found instance with ref {} at time {} ({})", ref, tm, description);
 
                     Service tempService = new Service(new Reference(ref), description, data);
                     tempService = createService(tempService, s, ref, description, tm, j);
@@ -198,21 +198,21 @@ public class JSONTimetable {
         if(s.linksForward) {
             FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
             links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(tm.getMinutes()));
-            logger.debug("      Instance links forward, storing the Fns time: {}", fns.getTime().addMinutes(tm.getMinutes()).toString()); 
+            logger.debug("      Instance links forward, storing the Fns time: {}", fns.getTime().addMinutes(tm.getMinutes())); 
         }
 
         tempService.addTemplate(template, tm, s.increment * j);
-        logger.debug("      Added template to service with time offset {}.", tm.toString());
+        logger.debug("      Added template to service with time offset {}.", tm);
 
         for(StaticEvent evt : staticEvents) {
             tempService.setEventAtIndex(evt.index, evt.e);
-            logger.debug("      Setting static event {}.", evt.e.toString());
+            logger.debug("      Setting static event {}.", evt.e);
         }
 
         if(s.linksBackward) {
             SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
             tempService.setEventAtIndex(0, sns);
-            logger.debug("      Instance links backward, setting Sns event to match incoming time: {}", sns.toString());
+            logger.debug("      Instance links backward, setting Sns event to match incoming time: {}", sns);
         }
         
         return tempService;
@@ -223,7 +223,7 @@ public class JSONTimetable {
         for(int i = 0; i < events.size(); i++) {
             Object evt = events.get(i);
             if(evt instanceof JSONArray) {
-                logger.debug("Checking regex for event in array {}", evt.toString());
+                logger.debug("      Checking regex for event in array {}", evt);
                 JSONArray evts = (JSONArray) evt;
                 boolean matches = false;
                 eventcheck:
