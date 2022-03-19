@@ -25,6 +25,8 @@ public class JSONService {
 
 	public final int increment;
 
+    public final boolean suppressWarnings;
+
     @SuppressWarnings("unchecked")
 	public JSONService(JSONObject service) {
 		events = (JSONArray) service.get("events");
@@ -84,5 +86,11 @@ public class JSONService {
         }
                 
 		increment = Integer.parseInt(service.get("increment").toString());
+
+        if(service.containsKey("suppressWarnings")) {
+            suppressWarnings = (boolean) service.get("suppressWarnings");
+        } else {
+            suppressWarnings = false;
+        }
 	}
 }

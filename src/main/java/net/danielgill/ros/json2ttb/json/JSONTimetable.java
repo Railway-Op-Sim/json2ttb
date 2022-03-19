@@ -29,8 +29,10 @@ import net.danielgill.ros.timetable.service.ServiceInvalidException;
 import net.danielgill.ros.timetable.template.Template;
 import net.danielgill.ros.timetable.time.Time;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -46,8 +48,10 @@ public class JSONTimetable {
     private List<String> earlyRefs;
     private Map<String, LinkQueue> links;
 
-    public JSONTimetable(File file) throws IOException, ParseException {
-
+    public JSONTimetable(File file, boolean debug) throws IOException, ParseException {
+        if(debug) {
+            Configurator.setLevel(logger.getName(), Level.DEBUG);
+        }
         JSONParser jsonParser = new JSONParser();
         json = (JSONObject) jsonParser.parse(new FileReader(file));
         timetable = new Timetable(new Time(json.get(START_TIME).toString()));
@@ -57,7 +61,10 @@ public class JSONTimetable {
         links = new HashMap<>();
     }
     
-    public JSONTimetable(File file, Time interval) throws IOException, ParseException {
+    public JSONTimetable(File file, boolean debug, Time interval) throws IOException, ParseException {
+        if(debug) {
+            Configurator.setLevel(logger.getName(), Level.DEBUG);
+        }
         JSONParser jsonParser = new JSONParser();
         json = (JSONObject) jsonParser.parse(new FileReader(file));
         timetable = new Timetable(new Time(json.get(START_TIME).toString()).addMinutes(interval.getMinutes()));
@@ -81,11 +88,14 @@ public class JSONTimetable {
                 int maxBrake = Integer.parseInt(customTemp.get("maxBrake").toString());
                 int power = Integer.parseInt(customTemp.get("power").toString());
                 dts.addTemplate(keyword, maxSpeed, mass, maxBrake, power);
+                logger.debug("Added custom data template {}", keyword);
             }
         }
         
         for(int i = 0; i < services.size(); i++) {
             JSONService s = new JSONService((JSONObject) services.get(i));
+            logger.debug("Working on service {}", s.ref);
+            logger.debug("");
             
             Data data;
             if(s.usesDataTemplate) {
@@ -116,8 +126,10 @@ public class JSONTimetable {
                     if(timeJSON.containsKey("description")) {
                         description = timeJSON.get("description").toString();
                     }
-                    
+
                     description = updateDescription(description, tm);
+
+                    logger.debug("  Found object instance with ref {} at time {} ({})", ref, tm, description);
                     
                     Service tempService;
                     
@@ -147,6 +159,8 @@ public class JSONTimetable {
                     String description = s.description;
                     description = updateDescription(description, tm);
 
+                    logger.debug("  Found instance with ref {} at time {} ({})", ref, tm, description);
+
                     Service tempService = new Service(new Reference(ref), description, data);
                     tempService = createService(tempService, s, ref, description, tm, j);
                     
@@ -159,12 +173,13 @@ public class JSONTimetable {
                         }
                     }
                 }
+                logger.debug("");
             }
         }
         try {
             return timetable.getTextTimetable();
         } catch (ServiceInvalidException e) {
-            logger.error(String.format("Unexpected error in timetable service %s", e.getRef()));
+            logger.error(String.format("Unexpected error in timetable ({}): {}", e.getRef(), e.getMessage()));
             System.exit(0);
             return null;
         }
@@ -177,32 +192,38 @@ public class JSONTimetable {
     private Service createService(Service tempService, JSONService s, String ref, String description, Time tm, int j) {
         ArrayList<StaticEvent> staticEvents = new ArrayList<>();
 
-        Template template = createTemplate(s.events, ref, description, staticEvents);
+        Template template = createTemplate(s.events, ref, description, staticEvents, s.suppressWarnings);
+        logger.debug("      Template created successfully.");
 
         if(s.linksForward) {
             FnsEvent fns = (FnsEvent) template.getEvents().get(template.getEventCount() - 1);
             links.get(s.ref).add(ref, new Time(fns.getTime()).addMinutes(tm.getMinutes()));
+            logger.debug("      Instance links forward, storing the Fns time: {}", fns.getTime().addMinutes(tm.getMinutes())); 
         }
 
         tempService.addTemplate(template, tm, s.increment * j);
+        logger.debug("      Added template to service with time offset {}.", tm);
 
         for(StaticEvent evt : staticEvents) {
             tempService.setEventAtIndex(evt.index, evt.e);
+            logger.debug("      Setting static event {}.", evt.e);
         }
 
         if(s.linksBackward) {
             SnsEvent sns = links.get(s.from).removeSnsEventAfterTime(tm, tempService.getRef());
             tempService.setEventAtIndex(0, sns);
+            logger.debug("      Instance links backward, setting Sns event to match incoming time: {}", sns);
         }
         
         return tempService;
     }
     
-    private Template createTemplate(JSONArray events, String reference, String description, ArrayList<StaticEvent> staticEvents) {
+    private Template createTemplate(JSONArray events, String reference, String description, ArrayList<StaticEvent> staticEvents, boolean suppressWarnings) {
         Template template = new Template(description);
         for(int i = 0; i < events.size(); i++) {
             Object evt = events.get(i);
             if(evt instanceof JSONArray) {
+                logger.debug("      Checking regex for event in array {}", evt);
                 JSONArray evts = (JSONArray) evt;
                 boolean matches = false;
                 eventcheck:
@@ -217,7 +238,7 @@ public class JSONTimetable {
                         }
                     }
                 }
-                if(!matches) {
+                if(!matches && !suppressWarnings) {
                     logger.info("Service with ref {} does not match any regex for an event.", reference);
                 }
             } else {

@@ -231,7 +231,7 @@ Or another example, where only instances 1A01 and 1A03 stop at C, and only 1A02 
     ...
 ```
 
-**In the above two cases, you may get warnings as some instances will not have events (e.g. 1A02 in the first example), however this can safley be ignored.**
+**In the above two cases, you may get warnings as some instances will not have events (e.g. 1A02 in the first example), however this can safley be ignored.** If you would like to suppress these warnings when you run the program, then you can include `"suppressWarnings":true` inside the service to disable them.
 
 You can also include several intances in a single event array as below:
 
@@ -241,7 +241,7 @@ You can also include several intances in a single event array as below:
       ...
 ```
 
-In this case, the first valid object for an instance will be chosen, for example, for `1A01`, it will pick the first option, however, for all others it will pick the second option.
+In this case, the first valid object for an instance will be chosen, for example, for `1A01`, it will pick the first option, however, for all others it will pick the second option. The regex `....` will match any 4-character reference and is useful to catch remaining instances.
 
 ### Static Events
 
